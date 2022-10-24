@@ -1,0 +1,160 @@
+C:\Users\sro\source\repos\Temp\Temp\bin\Debug\net6.0-windows\Temp.exe
+C:\Users\sro\source\repos\Temp\Temp\bin\Debug\net6.0-windows\Temp.deps.json
+C:\Users\sro\source\repos\Temp\Temp\bin\Debug\net6.0-windows\Temp.runtimeconfig.json
+C:\Users\sro\source\repos\Temp\Temp\bin\Debug\net6.0-windows\Temp.dll
+C:\Users\sro\source\repos\Temp\Temp\bin\Debug\net6.0-windows\Temp.pdb
+C:\Users\sro\source\repos\Temp\Temp\bin\Debug\net6.0-windows\LiveCharts.dll
+C:\Users\sro\source\repos\Temp\Temp\bin\Debug\net6.0-windows\LiveCharts.Wpf.dll
+C:\Users\sro\source\repos\Temp\Temp\obj\Debug\net6.0-windows\Temp.csproj.AssemblyReference.cache
+C:\Users\sro\source\repos\Temp\Temp\obj\Debug\net6.0-windows\MainWindow.g.cs
+C:\Users\sro\source\repos\Temp\Temp\obj\Debug\net6.0-windows\App.g.cs
+C:\Users\sro\source\repos\Temp\Temp\obj\Debug\net6.0-windows\Temp_MarkupCompile.cache
+C:\Users\sro\source\repos\Temp\Temp\obj\Debug\net6.0-windows\Temp_MarkupCompile.lref
+C:\Users\sro\source\repos\Temp\Temp\obj\Debug\net6.0-windows\MainWindow.baml
+C:\Users\sro\source\repos\Temp\Temp\obj\Debug\net6.0-windows\Temp.g.resources
+C:\Users\sro\source\repos\Temp\Temp\obj\Debug\net6.0-windows\Temp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sro\source\repos\Temp\Temp\obj\Debug\net6.0-windows\Temp.AssemblyInfoInputs.cache
+C:\Users\sro\source\repos\Temp\Temp\obj\Debug\net6.0-windows\Temp.AssemblyInfo.cs
+C:\Users\sro\source\repos\Temp\Temp\obj\Debug\net6.0-windows\Temp.csproj.CoreCompileInputs.cache
+C:\Users\sro\source\repos\Temp\Temp\obj\Debug\net6.0-windows\Temp.csproj.CopyComplete
+C:\Users\sro\source\repos\Temp\Temp\obj\Debug\net6.0-windows\Temp.dll
+C:\Users\sro\source\repos\Temp\Temp\obj\Debug\net6.0-windows\refint\Temp.dll
+C:\Users\sro\source\repos\Temp\Temp\obj\Debug\net6.0-windows\Temp.pdb
+C:\Users\sro\source\repos\Temp\Temp\obj\Debug\net6.0-windows\Temp.genruntimeconfig.cache
+C:\Users\sro\source\repos\Temp\Temp\obj\Debug\net6.0-windows\ref\Temp.dll
+C:\Users\sro\source\repos\Temp\Temp\bin\Debug\net6.0-windows\System.IO.Ports.dll
+C:\Users\sro\source\repos\Temp\Temp\bin\Debug\net6.0-windows\runtimes\linux-arm\native\libSystem.IO.Ports.Native.so
+C:\Users\sro\source\repos\Temp\Temp\bin\Debug\net6.0-windows\runtimes\linux-arm64\native\libSystem.IO.Ports.Native.so
+C:\Users\sro\source\repos\Temp\Temp\bin\Debug\net6.0-windows\runtimes\linux-x64\native\libSystem.IO.Ports.Native.so
+C:\Users\sro\source\repos\Temp\Temp\bin\Debug\net6.0-windows\runtimes\osx-arm64\native\libSystem.IO.Ports.Native.dylib
+C:\Users\sro\source\repos\Temp\Temp\bin\Debug\net6.0-windows\runtimes\osx-x64\native\libSystem.IO.Ports.Native.dylib
+C:\Users\sro\source\repos\Temp\Temp\bin\Debug\net6.0-windows\runtimes\unix\lib\net6.0\System.IO.Ports.dll
+C:\Users\sro\source\repos\Temp\Temp\bin\Debug\net6.0-windows\runtimes\win\lib\net6.0\System.IO.Ports.dll
+C:\Users\Admin\Desktop\Temp\Temp\bin\Debug\net6.0-windows\Temp.exe
+C:\Users\Admin\Desktop\Temp\Temp\bin\Debug\net6.0-windows\Temp.deps.json
+C:\Users\Admin\Desktop\Temp\Temp\bin\Debug\net6.0-windows\Temp.runtimeconfig.json
+C:\Users\Admin\Desktop\Temp\Temp\bin\Debug\net6.0-windows\Temp.dll
+C:\Users\Admin\Desktop\Temp\Temp\bin\Debug\net6.0-windows\Temp.pdb
+C:\Users\Admin\Desktop\Temp\Temp\bin\Debug\net6.0-windows\LiveCharts.dll
+C:\Users\Admin\Desktop\Temp\Temp\bin\Debug\net6.0-windows\LiveCharts.Wpf.dll
+C:\Users\Admin\Desktop\Temp\Temp\bin\Debug\net6.0-windows\System.IO.Ports.dll
+C:\Users\Admin\Desktop\Temp\Temp\bin\Debug\net6.0-windows\runtimes\linux-arm\native\libSystem.IO.Ports.Native.so
+C:\Users\Admin\Desktop\Temp\Temp\bin\Debug\net6.0-windows\runtimes\linux-arm64\native\libSystem.IO.Ports.Native.so
+C:\Users\Admin\Desktop\Temp\Temp\bin\Debug\net6.0-windows\runtimes\linux-x64\native\libSystem.IO.Ports.Native.so
+C:\Users\Admin\Desktop\Temp\Temp\bin\Debug\net6.0-windows\runtimes\osx-arm64\native\libSystem.IO.Ports.Native.dylib
+C:\Users\Admin\Desktop\Temp\Temp\bin\Debug\net6.0-windows\runtimes\osx-x64\native\libSystem.IO.Ports.Native.dylib
+C:\Users\Admin\Desktop\Temp\Temp\bin\Debug\net6.0-windows\runtimes\unix\lib\net6.0\System.IO.Ports.dll
+C:\Users\Admin\Desktop\Temp\Temp\bin\Debug\net6.0-windows\runtimes\win\lib\net6.0\System.IO.Ports.dll
+C:\Users\Admin\Desktop\Temp\Temp\obj\Debug\net6.0-windows\Temp.csproj.AssemblyReference.cache
+C:\Users\Admin\Desktop\Temp\Temp\obj\Debug\net6.0-windows\MainWindow.g.cs
+C:\Users\Admin\Desktop\Temp\Temp\obj\Debug\net6.0-windows\App.g.cs
+C:\Users\Admin\Desktop\Temp\Temp\obj\Debug\net6.0-windows\Temp_MarkupCompile.cache
+C:\Users\Admin\Desktop\Temp\Temp\obj\Debug\net6.0-windows\Temp_MarkupCompile.lref
+C:\Users\Admin\Desktop\Temp\Temp\obj\Debug\net6.0-windows\MainWindow.baml
+C:\Users\Admin\Desktop\Temp\Temp\obj\Debug\net6.0-windows\Temp.g.resources
+C:\Users\Admin\Desktop\Temp\Temp\obj\Debug\net6.0-windows\Temp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\Desktop\Temp\Temp\obj\Debug\net6.0-windows\Temp.AssemblyInfoInputs.cache
+C:\Users\Admin\Desktop\Temp\Temp\obj\Debug\net6.0-windows\Temp.AssemblyInfo.cs
+C:\Users\Admin\Desktop\Temp\Temp\obj\Debug\net6.0-windows\Temp.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Desktop\Temp\Temp\obj\Debug\net6.0-windows\Temp.csproj.CopyComplete
+C:\Users\Admin\Desktop\Temp\Temp\obj\Debug\net6.0-windows\Temp.dll
+C:\Users\Admin\Desktop\Temp\Temp\obj\Debug\net6.0-windows\refint\Temp.dll
+C:\Users\Admin\Desktop\Temp\Temp\obj\Debug\net6.0-windows\Temp.pdb
+C:\Users\Admin\Desktop\Temp\Temp\obj\Debug\net6.0-windows\Temp.genruntimeconfig.cache
+C:\Users\Admin\Desktop\Temp\Temp\obj\Debug\net6.0-windows\ref\Temp.dll
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\bin\Debug\net6.0-windows\Temp.exe
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\bin\Debug\net6.0-windows\Temp.deps.json
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\bin\Debug\net6.0-windows\Temp.runtimeconfig.json
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\bin\Debug\net6.0-windows\Temp.dll
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\bin\Debug\net6.0-windows\Temp.pdb
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\bin\Debug\net6.0-windows\LiveCharts.dll
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\bin\Debug\net6.0-windows\LiveCharts.Wpf.dll
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\bin\Debug\net6.0-windows\System.IO.Ports.dll
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\bin\Debug\net6.0-windows\runtimes\linux-arm\native\libSystem.IO.Ports.Native.so
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\bin\Debug\net6.0-windows\runtimes\linux-arm64\native\libSystem.IO.Ports.Native.so
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\bin\Debug\net6.0-windows\runtimes\linux-x64\native\libSystem.IO.Ports.Native.so
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\bin\Debug\net6.0-windows\runtimes\osx-arm64\native\libSystem.IO.Ports.Native.dylib
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\bin\Debug\net6.0-windows\runtimes\osx-x64\native\libSystem.IO.Ports.Native.dylib
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\bin\Debug\net6.0-windows\runtimes\unix\lib\net6.0\System.IO.Ports.dll
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\bin\Debug\net6.0-windows\runtimes\win\lib\net6.0\System.IO.Ports.dll
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\obj\Debug\net6.0-windows\Temp.csproj.AssemblyReference.cache
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\obj\Debug\net6.0-windows\MainWindow.g.cs
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\obj\Debug\net6.0-windows\App.g.cs
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\obj\Debug\net6.0-windows\Temp_MarkupCompile.cache
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\obj\Debug\net6.0-windows\Temp_MarkupCompile.lref
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\obj\Debug\net6.0-windows\MainWindow.baml
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\obj\Debug\net6.0-windows\Temp.g.resources
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\obj\Debug\net6.0-windows\Temp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\obj\Debug\net6.0-windows\Temp.AssemblyInfoInputs.cache
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\obj\Debug\net6.0-windows\Temp.AssemblyInfo.cs
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\obj\Debug\net6.0-windows\Temp.csproj.CoreCompileInputs.cache
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\obj\Debug\net6.0-windows\Temp.csproj.CopyComplete
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\obj\Debug\net6.0-windows\Temp.dll
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\obj\Debug\net6.0-windows\refint\Temp.dll
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\obj\Debug\net6.0-windows\Temp.pdb
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\obj\Debug\net6.0-windows\Temp.genruntimeconfig.cache
+C:\Users\User\Documents\Visual Studio 2022\Temp\Temp\obj\Debug\net6.0-windows\ref\Temp.dll
+C:\Users\sro\Documents\Temp\Temp\bin\Debug\net6.0-windows\Temp.exe
+C:\Users\sro\Documents\Temp\Temp\bin\Debug\net6.0-windows\Temp.deps.json
+C:\Users\sro\Documents\Temp\Temp\bin\Debug\net6.0-windows\Temp.runtimeconfig.json
+C:\Users\sro\Documents\Temp\Temp\bin\Debug\net6.0-windows\Temp.dll
+C:\Users\sro\Documents\Temp\Temp\bin\Debug\net6.0-windows\Temp.pdb
+C:\Users\sro\Documents\Temp\Temp\bin\Debug\net6.0-windows\LiveCharts.dll
+C:\Users\sro\Documents\Temp\Temp\bin\Debug\net6.0-windows\LiveCharts.Wpf.dll
+C:\Users\sro\Documents\Temp\Temp\bin\Debug\net6.0-windows\System.IO.Ports.dll
+C:\Users\sro\Documents\Temp\Temp\bin\Debug\net6.0-windows\runtimes\linux-arm\native\libSystem.IO.Ports.Native.so
+C:\Users\sro\Documents\Temp\Temp\bin\Debug\net6.0-windows\runtimes\linux-arm64\native\libSystem.IO.Ports.Native.so
+C:\Users\sro\Documents\Temp\Temp\bin\Debug\net6.0-windows\runtimes\linux-x64\native\libSystem.IO.Ports.Native.so
+C:\Users\sro\Documents\Temp\Temp\bin\Debug\net6.0-windows\runtimes\osx-arm64\native\libSystem.IO.Ports.Native.dylib
+C:\Users\sro\Documents\Temp\Temp\bin\Debug\net6.0-windows\runtimes\osx-x64\native\libSystem.IO.Ports.Native.dylib
+C:\Users\sro\Documents\Temp\Temp\bin\Debug\net6.0-windows\runtimes\unix\lib\net6.0\System.IO.Ports.dll
+C:\Users\sro\Documents\Temp\Temp\bin\Debug\net6.0-windows\runtimes\win\lib\net6.0\System.IO.Ports.dll
+C:\Users\sro\Documents\Temp\Temp\obj\Debug\net6.0-windows\Temp.csproj.AssemblyReference.cache
+C:\Users\sro\Documents\Temp\Temp\obj\Debug\net6.0-windows\MainWindow.g.cs
+C:\Users\sro\Documents\Temp\Temp\obj\Debug\net6.0-windows\App.g.cs
+C:\Users\sro\Documents\Temp\Temp\obj\Debug\net6.0-windows\Temp_MarkupCompile.cache
+C:\Users\sro\Documents\Temp\Temp\obj\Debug\net6.0-windows\Temp_MarkupCompile.lref
+C:\Users\sro\Documents\Temp\Temp\obj\Debug\net6.0-windows\MainWindow.baml
+C:\Users\sro\Documents\Temp\Temp\obj\Debug\net6.0-windows\Temp.g.resources
+C:\Users\sro\Documents\Temp\Temp\obj\Debug\net6.0-windows\Temp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sro\Documents\Temp\Temp\obj\Debug\net6.0-windows\Temp.AssemblyInfoInputs.cache
+C:\Users\sro\Documents\Temp\Temp\obj\Debug\net6.0-windows\Temp.AssemblyInfo.cs
+C:\Users\sro\Documents\Temp\Temp\obj\Debug\net6.0-windows\Temp.csproj.CoreCompileInputs.cache
+C:\Users\sro\Documents\Temp\Temp\obj\Debug\net6.0-windows\Temp.csproj.CopyComplete
+C:\Users\sro\Documents\Temp\Temp\obj\Debug\net6.0-windows\Temp.dll
+C:\Users\sro\Documents\Temp\Temp\obj\Debug\net6.0-windows\refint\Temp.dll
+C:\Users\sro\Documents\Temp\Temp\obj\Debug\net6.0-windows\Temp.pdb
+C:\Users\sro\Documents\Temp\Temp\obj\Debug\net6.0-windows\Temp.genruntimeconfig.cache
+C:\Users\sro\Documents\Temp\Temp\obj\Debug\net6.0-windows\ref\Temp.dll
+C:\Users\User\Desktop\Temp\Temp\bin\Debug\net6.0-windows\Temp.exe
+C:\Users\User\Desktop\Temp\Temp\bin\Debug\net6.0-windows\Temp.deps.json
+C:\Users\User\Desktop\Temp\Temp\bin\Debug\net6.0-windows\Temp.runtimeconfig.json
+C:\Users\User\Desktop\Temp\Temp\bin\Debug\net6.0-windows\Temp.dll
+C:\Users\User\Desktop\Temp\Temp\bin\Debug\net6.0-windows\Temp.pdb
+C:\Users\User\Desktop\Temp\Temp\bin\Debug\net6.0-windows\LiveCharts.dll
+C:\Users\User\Desktop\Temp\Temp\bin\Debug\net6.0-windows\LiveCharts.Wpf.dll
+C:\Users\User\Desktop\Temp\Temp\bin\Debug\net6.0-windows\System.IO.Ports.dll
+C:\Users\User\Desktop\Temp\Temp\bin\Debug\net6.0-windows\runtimes\linux-arm\native\libSystem.IO.Ports.Native.so
+C:\Users\User\Desktop\Temp\Temp\bin\Debug\net6.0-windows\runtimes\linux-arm64\native\libSystem.IO.Ports.Native.so
+C:\Users\User\Desktop\Temp\Temp\bin\Debug\net6.0-windows\runtimes\linux-x64\native\libSystem.IO.Ports.Native.so
+C:\Users\User\Desktop\Temp\Temp\bin\Debug\net6.0-windows\runtimes\osx-arm64\native\libSystem.IO.Ports.Native.dylib
+C:\Users\User\Desktop\Temp\Temp\bin\Debug\net6.0-windows\runtimes\osx-x64\native\libSystem.IO.Ports.Native.dylib
+C:\Users\User\Desktop\Temp\Temp\bin\Debug\net6.0-windows\runtimes\unix\lib\net6.0\System.IO.Ports.dll
+C:\Users\User\Desktop\Temp\Temp\bin\Debug\net6.0-windows\runtimes\win\lib\net6.0\System.IO.Ports.dll
+C:\Users\User\Desktop\Temp\Temp\obj\Debug\net6.0-windows\Temp.csproj.AssemblyReference.cache
+C:\Users\User\Desktop\Temp\Temp\obj\Debug\net6.0-windows\MainWindow.g.cs
+C:\Users\User\Desktop\Temp\Temp\obj\Debug\net6.0-windows\App.g.cs
+C:\Users\User\Desktop\Temp\Temp\obj\Debug\net6.0-windows\Temp_MarkupCompile.cache
+C:\Users\User\Desktop\Temp\Temp\obj\Debug\net6.0-windows\Temp_MarkupCompile.lref
+C:\Users\User\Desktop\Temp\Temp\obj\Debug\net6.0-windows\MainWindow.baml
+C:\Users\User\Desktop\Temp\Temp\obj\Debug\net6.0-windows\Temp.g.resources
+C:\Users\User\Desktop\Temp\Temp\obj\Debug\net6.0-windows\Temp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\Desktop\Temp\Temp\obj\Debug\net6.0-windows\Temp.AssemblyInfoInputs.cache
+C:\Users\User\Desktop\Temp\Temp\obj\Debug\net6.0-windows\Temp.AssemblyInfo.cs
+C:\Users\User\Desktop\Temp\Temp\obj\Debug\net6.0-windows\Temp.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\Temp\Temp\obj\Debug\net6.0-windows\Temp.csproj.CopyComplete
+C:\Users\User\Desktop\Temp\Temp\obj\Debug\net6.0-windows\Temp.dll
+C:\Users\User\Desktop\Temp\Temp\obj\Debug\net6.0-windows\refint\Temp.dll
+C:\Users\User\Desktop\Temp\Temp\obj\Debug\net6.0-windows\Temp.pdb
+C:\Users\User\Desktop\Temp\Temp\obj\Debug\net6.0-windows\Temp.genruntimeconfig.cache
+C:\Users\User\Desktop\Temp\Temp\obj\Debug\net6.0-windows\ref\Temp.dll
