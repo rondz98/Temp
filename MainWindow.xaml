@@ -39,9 +39,8 @@
             </Grid.ColumnDefinitions>
 
             <Button x:Name="Connect_button" Grid.Column="0" Content="Connetti" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="100" Click="Button_Click"/>
-            <Button x:Name="Start_button" Grid.Column="1" Content="Avvia" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100" Click="Start_button_Click" IsEnabled="False"/>
-            <Button x:Name="On_button" Grid.Column="2" Content="Accendi" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100" Click="On_button_Click" IsEnabled="False"/>
-            <Button x:Name="Off_button" Grid.Column="3" Content="Spegni" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100" Click="Off_button_Click" IsEnabled="False"/>
+            <Button x:Name="Start_button" Grid.Column="2" Content="Avvia" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100" Click="Start_button_Click" IsEnabled="False"/>
+            <Button x:Name="Mode_button" Grid.Column="1" Content="Modalità manuale" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100" Click="Mode_button_Click" IsEnabled="True"/>
         </Grid>
 
         <Grid Grid.Row="1" Grid.Column="0">
@@ -51,20 +50,25 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Label Content="Temperatura finale:" HorizontalAlignment="Center" Margin="5,0,0,0" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0"/>
-            <TextBox x:Name="TempValue_TextBox" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="0" Grid.Column="1" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120"/>
+            <Label x:Name="Temp_Label" Content="Temperatura finale:" HorizontalAlignment="Center" Margin="5,0,0,0" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0"/>
+            <TextBox x:Name="TempValue_TextBox" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="0" Grid.Column="1" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="60"/>
+            <Label x:Name="TempUm_Label" Content="°C" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center" Grid.Row="0" Grid.Column="2"/>
 
-            <Label Content="Tempo impiegato:" HorizontalAlignment="Center" Margin="5,0,0,0" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0"/>
-            <TextBox x:Name="TimeValue_TextBox" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120"/>
+            <Button x:Name="OnOff_Button" Content="Accendi" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Center" Grid.ColumnSpan="3" Width="100" Height="50" Click="OnOff_Button_Click" Visibility="Hidden" IsEnabled="false"/>
 
-            <Button x:Name="Insert_Button" Content="Inserisci" HorizontalAlignment="Center" Margin="0,-20,0,0" Grid.Row="2" VerticalAlignment="Center" Grid.ColumnSpan="2" Width="100" Click="Insert_Button_Click"/>
+            <Label x:Name="Time_Label" Content="Tempo impiegato:" HorizontalAlignment="Center" Margin="5,0,0,0" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0"/>
+            <TextBox x:Name="TimeValue_TextBox" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="60"/>
+            <Label x:Name="TimeUm_Label" Content="Ora(:minuti)" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2"/>
+
+            <Button x:Name="Insert_Button" Content="Inserisci" HorizontalAlignment="Center" Margin="0,-20,0,0" Grid.Row="2" VerticalAlignment="Center" Grid.ColumnSpan="3" Width="100" Click="Insert_Button_Click"/>
 
         </Grid>
-        <Grid Grid.Row="3" Margin="0,-30,0,0" Height="30" VerticalAlignment="Top">
+        <Grid x:Name="Title_grid" Grid.Row="3" Margin="0,-30,0,0" Height="30" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="80"/>

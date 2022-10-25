@@ -1,0 +1,15 @@
+C:\Users\sro\Desktop\Nuova cartella\Temp.exe
+C:\Users\sro\Desktop\Nuova cartella\Temp.dll
+C:\Users\sro\Desktop\Nuova cartella\Temp.deps.json
+C:\Users\sro\Desktop\Nuova cartella\Temp.runtimeconfig.json
+C:\Users\sro\Desktop\Nuova cartella\Temp.pdb
+C:\Users\sro\Desktop\Nuova cartella\LiveCharts.dll
+C:\Users\sro\Desktop\Nuova cartella\LiveCharts.Wpf.dll
+C:\Users\sro\Desktop\Nuova cartella\System.IO.Ports.dll
+C:\Users\sro\Desktop\Nuova cartella\runtimes\linux-arm\native\libSystem.IO.Ports.Native.so
+C:\Users\sro\Desktop\Nuova cartella\runtimes\linux-arm64\native\libSystem.IO.Ports.Native.so
+C:\Users\sro\Desktop\Nuova cartella\runtimes\linux-x64\native\libSystem.IO.Ports.Native.so
+C:\Users\sro\Desktop\Nuova cartella\runtimes\osx-arm64\native\libSystem.IO.Ports.Native.dylib
+C:\Users\sro\Desktop\Nuova cartella\runtimes\osx-x64\native\libSystem.IO.Ports.Native.dylib
+C:\Users\sro\Desktop\Nuova cartella\runtimes\unix\lib\net6.0\System.IO.Ports.dll
+C:\Users\sro\Desktop\Nuova cartella\runtimes\win\lib\net6.0\System.IO.Ports.dll
