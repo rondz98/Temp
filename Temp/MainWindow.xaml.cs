@@ -162,6 +162,12 @@ namespace Temp
             Refresh_graph();
         }
 
+        private void AddPointOnCurve(Points point)
+        {
+            IdealCurve.Insert(point.MaxTimeValue, point.MaxTempValue);
+            Refresh_graph();
+        }
+
         private void Insert_Button_Click(object sender, RoutedEventArgs e)
         {
             if (TimeValue_TextBox.Text != "" && TempValue_TextBox.Text != "")
@@ -348,53 +354,64 @@ namespace Temp
         {
             MinutePassed++;
             CheckHasbeenDone = false;
-            if(IdealCurve.Count()>MinutePassed)
-                RegulateTemp(true);
+            if (ReadTemperature >= points[OnGoingIndex].MaxTempValue)
+            {
+                OnGoingIndex++;
+            }
             else
             {
-                RegulateTemp(false);
-            }
-            if (!CheckHasbeenDone)
-            {
-                var mapper = new CartesianMapper<double>()
-                    .X((value, index) => MinutePassed)
-                    .Y((value, index) => value);
-
-                var p = new Point() { X = MinutePassed, Y = ReadTemperature };
-                ReadingChart.Add(p);
-
-                Application.Current.Dispatcher.Invoke(new Action(() =>
+                if(MinutePassed> points[OnGoingIndex].MaxTimeValue)
                 {
+                    AddPointOnCurve(points[OnGoingIndex]);
+                }
+                if (IdealCurve.Count() > MinutePassed)
+                    RegulateTemp(true);
+                else
+                {
+                    RegulateTemp(false);
+                }
+                if (!CheckHasbeenDone)
+                {
+                    var mapper = new CartesianMapper<double>()
+                        .X((value, index) => MinutePassed)
+                        .Y((value, index) => value);
 
-                    LineSeries Point = new LineSeries(mapper)
+                    var p = new Point() { X = MinutePassed, Y = ReadTemperature };
+                    ReadingChart.Add(p);
+
+                    Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
-                        Title = "Valore attuale",
-                        Values = new ChartValues<double> { ReadTemperature },
-                        Fill = Brushes.Red,
-                        Stroke = Brushes.Red,
-                        PointGeometrySize = 10,
-                        PointForeground = Brushes.Red
-                    };
-                    ReadingPoint.Configuration = new CartesianMapper<Point>()
-                            .X(p => p.X)
-                            .Y(p => p.Y);
-                    ReadingPoint.Values = ReadingChart;
 
-                    if (LastPoint != null)
-                        ch.Series.Remove(LastPoint);
-                    if (LastPointReading != null)
-                        ch.Series.Remove(LastPointReading);
-                    ch.Series.Add(Point);
-                    ch.Series.Add(ReadingPoint);
-                    LastPoint = Point;
-                    LastPointReading = ReadingPoint;
+                        LineSeries Point = new LineSeries(mapper)
+                        {
+                            Title = "Valore attuale",
+                            Values = new ChartValues<double> { ReadTemperature },
+                            Fill = Brushes.Red,
+                            Stroke = Brushes.Red,
+                            PointGeometrySize = 10,
+                            PointForeground = Brushes.Red
+                        };
+                        ReadingPoint.Configuration = new CartesianMapper<Point>()
+                                .X(p => p.X)
+                                .Y(p => p.Y);
+                        ReadingPoint.Values = ReadingChart;
 
-                    GraphGrid.Children.Clear();
-                    GraphGrid.Children.Add(ch);
-                }));
-                Thread.Sleep(200);
-                
-                CheckHasbeenDone = true;
+                        if (LastPoint != null)
+                            ch.Series.Remove(LastPoint);
+                        if (LastPointReading != null)
+                            ch.Series.Remove(LastPointReading);
+                        ch.Series.Add(Point);
+                        ch.Series.Add(ReadingPoint);
+                        LastPoint = Point;
+                        LastPointReading = ReadingPoint;
+
+                        GraphGrid.Children.Clear();
+                        GraphGrid.Children.Add(ch);
+                    }));
+                    Thread.Sleep(200);
+
+                    CheckHasbeenDone = true;
+                }
             }
         }
 
@@ -419,19 +436,9 @@ namespace Temp
             }
             else
             {
-                if (ReadTemperature < IdealCurve.Last())
+                if (!handlerArduino.writeOutput(0))
                 {
-                    if (!handlerArduino.writeOutput(1))
-                    {
-                        MessageBox.Show("Attenzione!!!\n Non è stato possibile spegnere il forno!", "Errore", MessageBoxButton.OK);
-                    }
-                }
-                else
-                {
-                    if (!handlerArduino.writeOutput(0))
-                    {
-                        MessageBox.Show("Attenzione!!!\n Non è stato possibile spegnere il forno!", "Errore", MessageBoxButton.OK);
-                    }
+                    MessageBox.Show("Attenzione!!!\n Non è stato possibile spegnere il forno!", "Errore", MessageBoxButton.OK);
                 }
             }
         }
@@ -603,6 +610,11 @@ namespace Temp
         /// Time in minutes from hour
         /// </summary>
         int TimeInMinute = 0;
+
+        /// <summary>
+        /// index of ongoing points
+        /// </summary>
+        int OnGoingIndex = 0;
 
     }
 }
