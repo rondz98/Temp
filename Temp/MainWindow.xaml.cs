@@ -42,10 +42,21 @@ namespace Temp
         {
             if (String.Compare(Connect_button.Content.ToString(), "Connetti") == 0)
             {
+#if EMULATE
+                Mouse.OverrideCursor = Cursors.Wait;
+                WorkingTimer.Interval = ReadingTempTimerRate;
+                WorkingTimer.Elapsed += ReadingTempTimer_Elapsed;
+                WorkingTimer.Start();
+                Mouse.OverrideCursor = null;
+
+                Connect_button.Content = "Disconnetti";
+                Select_Com.IsEnabled = false;
+                Start_button.IsEnabled = true;
+                OnOff_Button.IsEnabled = true;
+                Pause_button.Visibility = Visibility.Visible;
+#else
                 if (Select_Com.Text != "")
                 {
-                    Mouse.OverrideCursor = Cursors.Wait;
-
                     if (handlerArduino.Connect(Select_Com.Text))
                     {
 
@@ -60,19 +71,38 @@ namespace Temp
                         Select_Com.IsEnabled = false;
                         Start_button.IsEnabled = true;
                         OnOff_Button.IsEnabled = true;
+                        Pause_button.Visibility = Visibility.Visible;
                     }
                     else
                     {
                         MessageBox.Show("Non è stato possibile connettersi alla porta selezionata.", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
-                }
-                else
+            }
+            else
                 {
                     MessageBox.Show("Selezionare una porta!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+#endif
             }
             else
             {
+#if EMULATE
+                    Start_button.IsEnabled = false;
+                    Connect_button.Content = "Connetti";
+                    if (WorkingTimer.Enabled)
+                        WorkingTimer.Stop();
+                    if (OngoingTimer.Enabled)
+                        OngoingTimer.Stop();
+                    MinutePassed = 0;
+
+                    Insert_Button.IsEnabled = true;
+                    Clear_Button.IsEnabled = true;
+                    Select_Com.IsEnabled = true;
+                    OnOff_Button.IsEnabled = false;
+                    Pause_button.Visibility = Visibility.Hidden;
+
+                enableDelete = true;
+#else
                 if (handlerArduino.Disconnect())
                 {
                     Start_button.IsEnabled = false;
@@ -87,6 +117,7 @@ namespace Temp
                     Clear_Button.IsEnabled = true;
                     Select_Com.IsEnabled = true;
                     OnOff_Button.IsEnabled = false;
+                    Pause_button.Visibility = Visibility.Hidden;
 
                     enableDelete = true;
                 }
@@ -94,6 +125,7 @@ namespace Temp
                 {
                     MessageBox.Show("Non è stato possibile chiudere la connessione con la porta!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+#endif
             }
         }
 
@@ -104,7 +136,7 @@ namespace Temp
             {
                 if (String.Compare(Start_button.Content.ToString(), "Avvia") == 0)
                 {
-#if DEBUG
+#if EMULATE
                     OngoingTimer.Interval = 2000;
 #else
                     OngoingTimer.Interval = 60000;
@@ -117,6 +149,7 @@ namespace Temp
                     Insert_Button.IsEnabled = false;
                     Clear_Button.IsEnabled = false;
                     Mode_button.IsEnabled = false;
+                    Pause_button.IsEnabled = true;
                     enableDelete = false;
 
                 }
@@ -129,6 +162,7 @@ namespace Temp
                     Insert_Button.IsEnabled = true;
                     Clear_Button.IsEnabled = true;
                     Mode_button.IsEnabled = true;
+                    Pause_button.IsEnabled = false;
                     enableDelete = true;
                 }
             }
@@ -186,6 +220,7 @@ namespace Temp
                 catch
                 {
                     MessageBox.Show("Formato dell'ora inserito errato!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
                 TotalTime += TimeInMinute;
 
@@ -327,23 +362,31 @@ namespace Temp
 
         void Refresh_graph()
         {
-            ch.Series = new SeriesCollection
-            {
-                new LineSeries
-                {
-                    Title = "Curva ideale",
-                    Values = IdealCurve.AsChartValues()
-                }
-            };
 
-            GraphGrid.Children.Clear();
-            GraphGrid.Children.Add(ch);
+            Dispatcher.Invoke(() =>
+            {
+                ch.Series = new SeriesCollection
+                {
+                    new LineSeries
+                    {
+                        Title = "Curva ideale",
+                        Values = IdealCurve.AsChartValues()
+                    }
+                };
+
+                GraphGrid.Children.Clear();
+                GraphGrid.Children.Add(ch);
+            });
         }
 
         private void ReadingTempTimer_Elapsed(object? sender, ElapsedEventArgs e)
         {
+#if EMULATE
+            ReadTemperature = 23;
+#else
             ReadTemperature = handlerArduino.Read_Temp();
 
+#endif
             Dispatcher.Invoke(() =>
             {
                 TempActual_TextBox.Content = ReadTemperature + " °C";
@@ -421,9 +464,14 @@ namespace Temp
             {
                 if (ReadTemperature < IdealCurve[MinutePassed])
                 {
+#if !EMULATE
                     if (!handlerArduino.writeOutput(1))
                     {
                         MessageBox.Show("Attenzione!!!\n Non è stato possibile spegnere il forno!", "Errore", MessageBoxButton.OK);
+                    }else{
+                        switchStatus_Label.Visibility = Visibility.Visible;
+                        switchStatus_Label.Content = "Acceso";
+                        switchStatus_Label.Background = Brushes.Green;
                     }
                 }
                 else
@@ -431,15 +479,23 @@ namespace Temp
                     if (!handlerArduino.writeOutput(0))
                     {
                         MessageBox.Show("Attenzione!!!\n Non è stato possibile spegnere il forno!", "Errore", MessageBoxButton.OK);
+                    }else
+                    {
+                        switchStatus_Label.Visibility = Visibility.Visible;
+                        switchStatus_Label.Content = "Spento";
+                        switchStatus_Label.Background = Brushes.Red;
                     }
+#endif
                 }
             }
             else
             {
+#if !EMULATE
                 if (!handlerArduino.writeOutput(0))
                 {
                     MessageBox.Show("Attenzione!!!\n Non è stato possibile spegnere il forno!", "Errore", MessageBoxButton.OK);
                 }
+#endif
             }
         }
 
@@ -494,6 +550,8 @@ namespace Temp
                     if (handlerArduino.writeOutput(1))
                     {
                         OnOff_Button.Content = "Spegni";
+                        switchStatus_Label.Content = "Acceso";
+                        switchStatus_Label.Background = Brushes.Green;
                     }
                 }
                 else
@@ -501,6 +559,8 @@ namespace Temp
                     if (handlerArduino.writeOutput(0))
                     {
                         OnOff_Button.Content = "Accendi";
+                        switchStatus_Label.Content = "Spento";
+                        switchStatus_Label.Background = Brushes.Red;
                     }
                 }
             }
@@ -510,6 +570,22 @@ namespace Temp
                     OnOff_Button.Content = "Accendi";
                 }
             }
+        }
+        private void Pause_button_Click(object sender, RoutedEventArgs e)
+        {
+            if (String.Compare(Pause_button.Content.ToString(), "Pausa") == 0)
+            {
+                OngoingTimer.Stop();
+                Pause_button.Content = "In Pausa";
+                Pause_button.Background = Brushes.Green;
+            }
+            else
+            {
+                OngoingTimer.Start();
+                Pause_button.Content = "Pausa";
+                Pause_button.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xDD, 0xDD, 0xDD));
+            }
+
         }
 
         /// <summary>
@@ -565,7 +641,7 @@ namespace Temp
         /// <summary>
         /// Speed at which temperature read is done
         /// </summary>
-#if DEBUG
+#if EMULATE
         const int ReadingTempTimerRate = 2000;
 #else
         const int ReadingTempTimerRate = 2000;

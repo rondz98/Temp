@@ -40,6 +40,7 @@
 
             <Button x:Name="Connect_button" Grid.Column="0" Content="Connetti" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="100" Click="Button_Click"/>
             <Button x:Name="Start_button" Grid.Column="2" Content="Avvia" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100" Click="Start_button_Click" IsEnabled="False"/>
+            <Button x:Name="Pause_button" Grid.Column="3" Content="Pausa" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100" Click="Pause_button_Click" Visibility="Hidden" IsEnabled="False"/>
             <Button x:Name="Mode_button" Grid.Column="1" Content="Modalità manuale" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100" Click="Mode_button_Click" IsEnabled="True"/>
         </Grid>
 
@@ -86,6 +87,6 @@
         </ListBox>
         <Button x:Name="Clear_Button" Grid.Column="2" Content="Cancella tutto" HorizontalAlignment="Left" Margin="157,11,0,0" VerticalAlignment="Top" Width="100" Click="Clear_Button_Click"/>
         
-        <Label x:Name="switchStatus_Label" Content="Spento" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Grid.Column="2" Grid.Row="1"/>
+        <Label x:Name="switchStatus_Label" Content="Spento" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Grid.Column="2" Grid.Row="1" Background="Red" FontWeight="Bold"/>
     </Grid>
 </Window>
