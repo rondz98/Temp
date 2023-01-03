@@ -147,6 +147,7 @@ namespace Temp
 #endif
                     OngoingTimer.Elapsed += OngoingTimer_Elapsed;
                     OngoingTimer.Start();
+                    OngoingTimer_Elapsed(this, null);
 
                     Start_button.Content = "Ferma";
 
@@ -220,6 +221,8 @@ namespace Temp
                     {
                         TimeInMinute = Convert.ToInt32(TimeValue_TextBox.Text) * 60;
                     }
+                    if (TimeInMinute == 0)
+                        TimeInMinute = 1;
                 }
                 catch
                 {
@@ -402,24 +405,52 @@ namespace Temp
 
         private void OngoingTimer_Elapsed(object? sender, ElapsedEventArgs e)
         {
-            MinutePassed++;
+
             CheckHasbeenDone = false;
-            if (ReadTemperature >= points[OnGoingIndex].MaxTempValue)
+            if (points[OnGoingIndex].MinTempValue < points[OnGoingIndex].MaxTempValue)
             {
-                if (OnGoingIndex < points.Count - 1)
+                if (ReadTemperature >= points[OnGoingIndex].MaxTempValue)
                 {
-                    OnGoingIndex++;
+                    if (OnGoingIndex < points.Count - 1)
+                    {
+                        OnGoingIndex++;
+                    }
+                }
+            }
+            else
+            {
+                if (points[OnGoingIndex].MinTempValue > points[OnGoingIndex].MaxTempValue)
+                {
+                    if (ReadTemperature <= points[OnGoingIndex].MaxTempValue)
+                    {
+                        if (OnGoingIndex < points.Count - 1)
+                        {
+                            OnGoingIndex++;
+                        }
+                    }
                 }
             }
 
-            
-            if(MinutePassed> points[OnGoingIndex].MaxTimeValue && OnGoingIndex < points.Count - 1)
+            if (MinutePassed > points[OnGoingIndex].MaxTimeValue && OnGoingIndex < points.Count - 1)
             {
                 AddPointOnCurve(points[OnGoingIndex]);
-                points[OnGoingIndex].MinTimeValue++;
+
+                points[OnGoingIndex].MaxTimeValue++;
+
+                for (int i= OnGoingIndex + 1; i < points.Count; i++)
+                {
+                    points[i].MinTimeValue++;
+                    points[i].MaxTimeValue++;
+                }
             }
+
+            if (e != null)
+                MinutePassed++;
+
             if (IdealCurve.Count() > MinutePassed)
+            {
                 RegulateTemp(true);
+            }
             else
             {
                 RegulateTemp(false);
@@ -466,7 +497,6 @@ namespace Temp
 
                 CheckHasbeenDone = true;
             }
-            
         }
 
         private void RegulateTemp(bool hasreference)
