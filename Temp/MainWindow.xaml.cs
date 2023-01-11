@@ -35,6 +35,14 @@ namespace Temp
 #if EMULATE
             myOven = new OvenSim(3.0, 0.5, 20);
 #endif
+#if SAMPLECURVE
+            InsertCurvePoint(100,10);
+            InsertCurvePoint(200,1);
+            InsertCurvePoint(200,5);
+            InsertCurvePoint(100,1);
+            InsertCurvePoint(100,5);
+            InsertCurvePoint(20,1);
+#endif
         }
 
         private void ComboBox_DropDownOpened(object sender, EventArgs e)
@@ -141,7 +149,7 @@ namespace Temp
                 if (String.Compare(Start_button.Content.ToString(), "Avvia") == 0)
                 {
 #if EMULATE
-                    OngoingTimer.Interval = 2000;
+                    OngoingTimer.Interval = 1000;
 #else
                     OngoingTimer.Interval = 60000;
 #endif
@@ -177,9 +185,17 @@ namespace Temp
             }
         }
 
-        private void CurvesGeneration()
+        private void CurvesGeneration(int time = -1)
         {
-            double coefficient = (points[Index].MaxTempValue - points[Index].MinTempValue) / Convert.ToDouble(TimeInMinute);
+            double coefficient = 1;
+            if (time != -1)
+            {
+                coefficient = (points[Index].MaxTempValue - points[Index].MinTempValue) / Convert.ToDouble(time);
+            }
+            else
+            {
+                coefficient = (points[Index].MaxTempValue - points[Index].MinTempValue) / Convert.ToDouble(TimeInMinute);
+            }
             double value = points[Index].MinTempValue;
 
             for (int i = points[Index].MinTimeValue; i < points[Index].MaxTimeValue + 1; i++)
@@ -405,23 +421,25 @@ namespace Temp
 
         private void OngoingTimer_Elapsed(object? sender, ElapsedEventArgs e)
         {
+            bool addingPointNotNeeded = false;
 
-            CheckHasbeenDone = false;
-            if (points[OnGoingIndex].MinTempValue < points[OnGoingIndex].MaxTempValue)
+            if (MinutePassed > points[OnGoingIndex].MaxTimeValue && OnGoingIndex < points.Count - 1)
             {
-                if (ReadTemperature >= points[OnGoingIndex].MaxTempValue)
+                if (!addingPointNotNeeded)
                 {
-                    if (OnGoingIndex < points.Count - 1)
+                    AddPointOnCurve(points[OnGoingIndex]);
+
+                    points[OnGoingIndex].MaxTimeValue++;
+
+                    for (int i = OnGoingIndex + 1; i < points.Count; i++)
                     {
-                        OnGoingIndex++;
+                        points[i].MinTimeValue++;
+                        points[i].MaxTimeValue++;
                     }
                 }
-            }
-            else
-            {
-                if (points[OnGoingIndex].MinTempValue > points[OnGoingIndex].MaxTempValue)
+                if (points[OnGoingIndex].MinTempValue < points[OnGoingIndex].MaxTempValue)
                 {
-                    if (ReadTemperature <= points[OnGoingIndex].MaxTempValue)
+                    if (ReadTemperature >= points[OnGoingIndex].MaxTempValue)
                     {
                         if (OnGoingIndex < points.Count - 1)
                         {
@@ -429,18 +447,19 @@ namespace Temp
                         }
                     }
                 }
-            }
-
-            if (MinutePassed > points[OnGoingIndex].MaxTimeValue && OnGoingIndex < points.Count - 1)
-            {
-                AddPointOnCurve(points[OnGoingIndex]);
-
-                points[OnGoingIndex].MaxTimeValue++;
-
-                for (int i= OnGoingIndex + 1; i < points.Count; i++)
+                else
                 {
-                    points[i].MinTimeValue++;
-                    points[i].MaxTimeValue++;
+                    if (points[OnGoingIndex].MinTempValue > points[OnGoingIndex].MaxTempValue)
+                    {
+                        if (ReadTemperature <= points[OnGoingIndex].MaxTempValue && OnGoingIndex < points.Count - 1)
+                        {
+                            OnGoingIndex++;
+                        }
+                    }
+                    else
+                    {
+                        addingPointNotNeeded = true;
+                    }
                 }
             }
 
@@ -455,48 +474,44 @@ namespace Temp
             {
                 RegulateTemp(false);
             }
-            if (!CheckHasbeenDone)
+
+            var mapper = new CartesianMapper<double>()
+                .X((value, index) => MinutePassed)
+                .Y((value, index) => value);
+
+            var p = new Point() { X = MinutePassed, Y = ReadTemperature };
+            ReadingChart.Add(p);
+
+            Application.Current.Dispatcher.Invoke(new Action(() =>
             {
-                var mapper = new CartesianMapper<double>()
-                    .X((value, index) => MinutePassed)
-                    .Y((value, index) => value);
 
-                var p = new Point() { X = MinutePassed, Y = ReadTemperature };
-                ReadingChart.Add(p);
-
-                Application.Current.Dispatcher.Invoke(new Action(() =>
+                LineSeries Point = new LineSeries(mapper)
                 {
+                    Title = "Valore attuale",
+                    Values = new ChartValues<double> { ReadTemperature },
+                    Fill = Brushes.Red,
+                    Stroke = Brushes.Red,
+                    PointGeometrySize = 10,
+                    PointForeground = Brushes.Red
+                };
+                ReadingPoint.Configuration = new CartesianMapper<Point>()
+                        .X(p => p.X)
+                        .Y(p => p.Y);
+                ReadingPoint.Values = ReadingChart;
 
-                    LineSeries Point = new LineSeries(mapper)
-                    {
-                        Title = "Valore attuale",
-                        Values = new ChartValues<double> { ReadTemperature },
-                        Fill = Brushes.Red,
-                        Stroke = Brushes.Red,
-                        PointGeometrySize = 10,
-                        PointForeground = Brushes.Red
-                    };
-                    ReadingPoint.Configuration = new CartesianMapper<Point>()
-                            .X(p => p.X)
-                            .Y(p => p.Y);
-                    ReadingPoint.Values = ReadingChart;
+                if (LastPoint != null)
+                    ch.Series.Remove(LastPoint);
+                if (LastPointReading != null)
+                    ch.Series.Remove(LastPointReading);
+                ch.Series.Add(Point);
+                ch.Series.Add(ReadingPoint);
+                LastPoint = Point;
+                LastPointReading = ReadingPoint;
 
-                    if (LastPoint != null)
-                        ch.Series.Remove(LastPoint);
-                    if (LastPointReading != null)
-                        ch.Series.Remove(LastPointReading);
-                    ch.Series.Add(Point);
-                    ch.Series.Add(ReadingPoint);
-                    LastPoint = Point;
-                    LastPointReading = ReadingPoint;
-
-                    GraphGrid.Children.Clear();
-                    GraphGrid.Children.Add(ch);
-                }));
-                Thread.Sleep(200);
-
-                CheckHasbeenDone = true;
-            }
+                GraphGrid.Children.Clear();
+                GraphGrid.Children.Add(ch);
+            }));
+            Thread.Sleep(200);
         }
 
         private void RegulateTemp(bool hasreference)
@@ -647,10 +662,79 @@ namespace Temp
 
         }
 
-        /// <summary>
-        /// Flag for control
-        /// </summary>
-        bool CheckHasbeenDone = false;
+        private void InsertCurvePoint(double Temp, int duration)
+        {
+            Points point = new Points();
+            point.ID = Index;
+            if (points.Count() > 0)
+            {
+                point.MinTempValue = points.Last().MaxTempValue;
+                point.MinTimeValue = points.Last().MaxTimeValue;
+            }
+            else
+            {
+                point.MinTempValue = Convert.ToDouble(ReadTemperature);
+                point.MinTimeValue = 0;
+            }
+
+            point.MaxTimeValue = duration + point.MinTimeValue;
+            point.MaxTempValue = Convert.ToDouble(Temp);
+
+            points.Add(point);
+
+            Grid grid = new Grid();
+            grid.Name = "Curve_point_" + Index;
+
+            Label LabelId = new Label();
+            LabelId.Name = "LabelId_" + Index;
+            LabelId.Margin = new Thickness(1, 2, 2, 2);
+            LabelId.HorizontalAlignment = HorizontalAlignment.Left;
+            LabelId.VerticalAlignment = VerticalAlignment.Top;
+            LabelId.VerticalContentAlignment = VerticalAlignment.Center;
+            LabelId.Width = 30;
+            LabelId.Height = 30;
+            LabelId.Content = Index;
+            grid.Children.Add(LabelId);
+
+            Label LabelTemp = new Label();
+            LabelTemp.Name = "LabelTemp_" + Index;
+            LabelTemp.Margin = new Thickness(31, 2, 2, 2);
+            LabelTemp.HorizontalAlignment = HorizontalAlignment.Left;
+            LabelTemp.VerticalAlignment = VerticalAlignment.Top;
+            LabelTemp.VerticalContentAlignment = VerticalAlignment.Center;
+            LabelTemp.Width = 80;
+            LabelTemp.Height = 30;
+            LabelTemp.Content = Temp;
+            grid.Children.Add(LabelTemp);
+
+            Label LabelTime = new Label();
+            LabelTime.Name = "LabelTime_" + Index;
+            LabelTime.Margin = new Thickness(111, 2, 2, 2);
+            LabelTime.HorizontalAlignment = HorizontalAlignment.Left;
+            LabelTime.VerticalAlignment = VerticalAlignment.Top;
+            LabelTime.VerticalContentAlignment = VerticalAlignment.Center;
+            LabelTime.Width = 50;
+            LabelTime.Height = 30;
+            LabelTime.Content = duration;
+            grid.Children.Add(LabelTime);
+
+            Button ButtonDelete = new Button();
+            ButtonDelete.Name = "ButtonDelete_" + Index;
+            ButtonDelete.Margin = new Thickness(161, 2, 2, 2);
+            ButtonDelete.HorizontalAlignment = HorizontalAlignment.Left;
+            ButtonDelete.VerticalAlignment = VerticalAlignment.Top;
+            ButtonDelete.VerticalContentAlignment = VerticalAlignment.Center;
+            ButtonDelete.Width = 70;
+            ButtonDelete.Height = 30;
+            ButtonDelete.Content = "Cancella";
+            ButtonDelete.Click += ButtonDelete_Click;
+            grid.Children.Add(ButtonDelete);
+
+            steps_grid.Items.Add(grid);
+
+            CurvesGeneration(duration);
+            Index++;
+        }
 
         /// <summary>
         /// Ideal Curve
@@ -701,7 +785,7 @@ namespace Temp
         /// Speed at which temperature read is done
         /// </summary>
 #if EMULATE
-        const int ReadingTempTimerRate = 2000;
+        const int ReadingTempTimerRate = 1000;
 #else
         const int ReadingTempTimerRate = 2000;
 #endif
