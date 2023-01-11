@@ -22,7 +22,7 @@ namespace Temp
             this._coolRate  = coolRate;
             this._roomTemp = roomTemp;
             this._temp = roomTemp;
-            ovenTimer = new Timer(1000);
+            ovenTimer = new Timer(200);
             ovenTimer.Elapsed += OvenTimer_Elapsed;
             ovenTimer.Start();
             _active = false;

@@ -38,7 +38,7 @@ namespace Temp.Handlers
             return true;
         }
 
-        public int Read_Temp()
+        public string Read_Temp_and_Status()
         {
             int retry = 3;
 
@@ -52,7 +52,7 @@ namespace Temp.Handlers
                         {
                             ClearCom();
                             port.Write("R");
-                            readTemp = Convert.ToInt32(port.ReadLine());
+                            readTemp_and_status = port.ReadLine();
                             retry = 0;
                         }
                         catch
@@ -66,7 +66,7 @@ namespace Temp.Handlers
                     retry--;
                 }
             }
-            return readTemp;
+            return readTemp_and_status;
         }
 
         public bool writeOutput(int output)
@@ -118,8 +118,8 @@ namespace Temp.Handlers
         private SerialPort port = new SerialPort();
 
         /// <summary>
-        /// Temperature read
+        /// Temperature and status string read
         /// </summary>
-        private int readTemp;
+        private string readTemp_and_status;
     }
 }

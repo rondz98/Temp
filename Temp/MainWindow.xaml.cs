@@ -33,15 +33,22 @@ namespace Temp
             Select_Com.SelectedIndex = 0;
 
 #if EMULATE
-            myOven = new OvenSim(3.0, 0.5, 20);
+            myOven = new OvenSim(3.0, 1.5, 20);
 #endif
 #if SAMPLECURVE
-            InsertCurvePoint(100,10);
-            InsertCurvePoint(200,1);
+            /*InsertCurvePoint(100,10);
+            InsertCurvePoint(200,0);
             InsertCurvePoint(200,5);
-            InsertCurvePoint(100,1);
+            InsertCurvePoint(100,0);
             InsertCurvePoint(100,5);
-            InsertCurvePoint(20,1);
+            InsertCurvePoint(20,0);*/
+
+            InsertCurvePoint(500, 120);
+            InsertCurvePoint(500, 15);
+            InsertCurvePoint(770, 0);
+            InsertCurvePoint(770, 10);
+            InsertCurvePoint(480, 0);
+            InsertCurvePoint(480, 60);
 #endif
         }
 
@@ -149,7 +156,7 @@ namespace Temp
                 if (String.Compare(Start_button.Content.ToString(), "Avvia") == 0)
                 {
 #if EMULATE
-                    OngoingTimer.Interval = 1000;
+                    OngoingTimer.Interval = 250;
 #else
                     OngoingTimer.Interval = 60000;
 #endif
@@ -219,7 +226,7 @@ namespace Temp
 
         private void AddPointOnCurve(Points point)
         {
-            IdealCurve.Insert(MinutePassed, point.MaxTempValue);
+            IdealCurve.Insert(MinutePassed + 1, point.MaxTempValue);
             Refresh_graph();
         }
 
@@ -410,12 +417,27 @@ namespace Temp
 #if EMULATE
             ReadTemperature = (int)Math.Floor(myOven.GetTemp());
 #else
-            ReadTemperature = handlerArduino.Read_Temp();
-
+            string rawString = handlerArduino.Read_Temp_and_Status();
+            ReadTemperature = Convert.ToInt32(rawString.Split(';')[0]);
+            Status = Convert.ToBoolean(rawString.Split(';')[1]);
 #endif
             Dispatcher.Invoke(() =>
             {
                 TempActual_TextBox.Content = ReadTemperature + " °C";
+#if !EMULATE
+                if (Status)
+                {
+                    switchStatus_Label.Visibility = Visibility.Visible;
+                    switchStatus_Label.Content = "Acceso";
+                    switchStatus_Label.Background = Brushes.Green;
+                }
+                else
+                {
+                    switchStatus_Label.Visibility = Visibility.Visible;
+                    switchStatus_Label.Content = "Spento";
+                    switchStatus_Label.Background = Brushes.Red;
+                }
+#endif
             });
         }
 
@@ -423,35 +445,20 @@ namespace Temp
         {
             bool addingPointNotNeeded = false;
 
-            if (MinutePassed > points[OnGoingIndex].MaxTimeValue && OnGoingIndex < points.Count - 1)
+            if (OnGoingIndex < points.Count - 1)
             {
-                if (!addingPointNotNeeded)
-                {
-                    AddPointOnCurve(points[OnGoingIndex]);
-
-                    points[OnGoingIndex].MaxTimeValue++;
-
-                    for (int i = OnGoingIndex + 1; i < points.Count; i++)
-                    {
-                        points[i].MinTimeValue++;
-                        points[i].MaxTimeValue++;
-                    }
-                }
                 if (points[OnGoingIndex].MinTempValue < points[OnGoingIndex].MaxTempValue)
                 {
                     if (ReadTemperature >= points[OnGoingIndex].MaxTempValue)
                     {
-                        if (OnGoingIndex < points.Count - 1)
-                        {
-                            OnGoingIndex++;
-                        }
+                        OnGoingIndex++;
                     }
                 }
                 else
                 {
                     if (points[OnGoingIndex].MinTempValue > points[OnGoingIndex].MaxTempValue)
                     {
-                        if (ReadTemperature <= points[OnGoingIndex].MaxTempValue && OnGoingIndex < points.Count - 1)
+                        if (ReadTemperature <= points[OnGoingIndex].MaxTempValue)
                         {
                             OnGoingIndex++;
                         }
@@ -459,12 +466,35 @@ namespace Temp
                     else
                     {
                         addingPointNotNeeded = true;
+                        if (MinutePassed > points[OnGoingIndex].MaxTimeValue)
+                            OnGoingIndex++;
+                    }
+                }
+
+                if (MinutePassed > points[OnGoingIndex].MaxTimeValue)
+                {
+
+                    if (!addingPointNotNeeded)
+                    {
+                        AddPointOnCurve(points[OnGoingIndex]);
+
+                        points[OnGoingIndex].MaxTimeValue++;
+
+                        for (int i = OnGoingIndex + 1; i < points.Count; i++)
+                        {
+                            points[i].MinTimeValue++;
+                            points[i].MaxTimeValue++;
+                        }
                     }
                 }
             }
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                TimeCount_Label.Content = MinutePassed;
+            }));
 
             if (e != null)
-                MinutePassed++;
+            MinutePassed++;
 
             if (IdealCurve.Count() > MinutePassed)
             {
@@ -524,10 +554,6 @@ namespace Temp
                     if (!handlerArduino.writeOutput(1))
                     {
                         MessageBox.Show("Attenzione!!!\n Non è stato possibile spegnere il forno!", "Errore", MessageBoxButton.OK);
-                    }else{
-                        switchStatus_Label.Visibility = Visibility.Visible;
-                        switchStatus_Label.Content = "Acceso";
-                        switchStatus_Label.Background = Brushes.Green;
                     }
 #else
                     myOven.Start();
@@ -545,11 +571,6 @@ namespace Temp
                     if (!handlerArduino.writeOutput(0))
                     {
                         MessageBox.Show("Attenzione!!!\n Non è stato possibile spegnere il forno!", "Errore", MessageBoxButton.OK);
-                    }else
-                    {
-                        switchStatus_Label.Visibility = Visibility.Visible;
-                        switchStatus_Label.Content = "Spento";
-                        switchStatus_Label.Background = Brushes.Red;
                     }
 #else
                     myOven.Stop();
@@ -785,7 +806,7 @@ namespace Temp
         /// Speed at which temperature read is done
         /// </summary>
 #if EMULATE
-        const int ReadingTempTimerRate = 1000;
+        const int ReadingTempTimerRate = 250;
 #else
         const int ReadingTempTimerRate = 2000;
 #endif
@@ -834,6 +855,11 @@ namespace Temp
         /// index of ongoing points
         /// </summary>
         int OnGoingIndex = 0;
+
+        /// <summary>
+        /// status of the oven
+        /// </summary>
+        bool Status = false;
 
 #if EMULATE
         OvenSim myOven;

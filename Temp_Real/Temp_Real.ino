@@ -20,18 +20,13 @@ void loop() {
     incomingString.toCharArray(buffer, incomingString.length() + 1);
     
     if ((buffer[0] == 82)){    //R
-      if((buffer[1]==83)){
-        if(active)
-          Serial.println("1");
-        else
-          Serial.println("0");
-      }else
-      {
         if (sens.readTemp()) {
           temp=sens.getTemp();
         }
-        Serial.println(temp);
-      }
+        if(active)
+          Serial.println(temp+";1");
+        else
+          Serial.println(temp+";0");
     }else{
       if ((buffer[0] == 87) && (buffer[1] == 59)){    //W;
         if(buffer[2] == 49){
