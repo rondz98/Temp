@@ -43,10 +43,19 @@ namespace Temp
             InsertCurvePoint(100,5);
             InsertCurvePoint(20,0);*/
 
+           /* InsertCurvePoint(500, 120);
+            InsertCurvePoint(500, 15);
+            InsertCurvePoint(770, 0);
+            InsertCurvePoint(770, 10);
+            InsertCurvePoint(480, 0);
+            InsertCurvePoint(480, 60);*/
+
             InsertCurvePoint(500, 120);
             InsertCurvePoint(500, 15);
             InsertCurvePoint(770, 0);
             InsertCurvePoint(770, 10);
+            InsertCurvePoint(850, 0);
+            InsertCurvePoint(850, 10);
             InsertCurvePoint(480, 0);
             InsertCurvePoint(480, 60);
 #endif
@@ -197,7 +206,8 @@ namespace Temp
             double coefficient = 1;
             if (time != -1)
             {
-                coefficient = (points[Index].MaxTempValue - points[Index].MinTempValue) / Convert.ToDouble(time);
+                if(time > 1)
+                    coefficient = (points[Index].MaxTempValue - points[Index].MinTempValue) / Convert.ToDouble(time);
             }
             else
             {
@@ -205,7 +215,11 @@ namespace Temp
             }
             double value = points[Index].MinTempValue;
 
-            for (int i = points[Index].MinTimeValue; i < points[Index].MaxTimeValue + 1; i++)
+            int delta = 0;
+            if (points[Index].MinTimeValue == 0)
+                delta = 1;
+
+            for (int i = points[Index].MinTimeValue; i < points[Index].MaxTimeValue + delta; i++)
             {
                 if (coefficient != 0)
                 {
