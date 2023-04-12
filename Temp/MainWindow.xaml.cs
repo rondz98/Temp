@@ -504,7 +504,9 @@ namespace Temp
             }
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
-                TimeCount_Label.Content = MinutePassed;
+                int hour = Convert.ToInt32(Math.Floor((double)MinutePassed / 60));
+                int minute = MinutePassed - (hour * 60);
+                TimeCount_Value_Label.Content = hour.ToString("00") + ":" + minute.ToString("00") + " h";
             }));
 
             if (e != null)
