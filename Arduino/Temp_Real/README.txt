@@ -1,0 +1,1 @@
+Versione che utilizza il sensore di temperatura e un relè per controllare il forno
