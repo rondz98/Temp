@@ -269,7 +269,7 @@ namespace Temp
                 TotalTime += TimeInMinute;
 
                 Points point = new Points();
-                point.ID = Index;
+                point.ID = Index + 1;
                 if (points.Count() > 0)
                 {
                     point.MinTempValue = points.Last().MaxTempValue;
@@ -507,10 +507,19 @@ namespace Temp
                 int hour = Convert.ToInt32(Math.Floor((double)MinutePassed / 60));
                 int minute = MinutePassed - (hour * 60);
                 TimeCount_Value_Label.Content = hour.ToString("00") + ":" + minute.ToString("00") + " h";
+                int lefthour = Convert.ToInt32(Math.Floor(((double)IdealCurve.Count() - MinutePassed)/60));
+                int leftminute = Convert.ToInt32((double)IdealCurve.Count() - MinutePassed)-(lefthour*60);
+                if(lefthour > 0 && leftminute > 0) { 
+                    TimeExpected_Value_Label.Content = lefthour.ToString("00") + ":" + leftminute.ToString("00") + " h";
+                }
+                else
+                {
+                    TimeExpected_Value_Label.Content = "--:-- h";
+                }
             }));
 
             if (e != null)
-            MinutePassed++;
+                MinutePassed++;
 
             if (IdealCurve.Count() > MinutePassed)
             {
@@ -702,7 +711,7 @@ namespace Temp
         private void InsertCurvePoint(double Temp, int duration)
         {
             Points point = new Points();
-            point.ID = Index;
+            point.ID = Index + 1;
             if (points.Count() > 0)
             {
                 point.MinTempValue = points.Last().MaxTempValue;
