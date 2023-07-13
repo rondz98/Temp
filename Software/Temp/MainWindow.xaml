@@ -42,7 +42,7 @@
 
             <Label x:Name="TimeExpected_Value_Label" Content="--.-- h" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
-            <Label x:Name="switchStatus_Label" Content="Spento" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Background="Red" FontWeight="Bold"/>
+            <Label x:Name="switchStatus_Label" Content="Spento" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" Background="Red" FontWeight="Bold"/>
         </Grid>
 
 
@@ -78,6 +78,7 @@
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
@@ -85,17 +86,25 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Label x:Name="Temp_Label" Content="Temperatura finale:" HorizontalAlignment="Center" Margin="5,0,0,0" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0"/>
-            <TextBox x:Name="TempValue_TextBox" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="0" Grid.Column="1" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="60"/>
-            <Label x:Name="TempUm_Label" Content="°C" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center" Grid.Row="0" Grid.Column="2"/>
+            <Label x:Name="Curve_Label" Content="Curva preimpostata:" HorizontalAlignment="Center" Margin="5,0,0,0" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0"/>
+            <ComboBox x:Name="Curve_ComboBox" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Height="25" SelectionChanged="Curve_ComboBox_SelectionChanged">
+                <ComboBoxItem Name="None" Tag="None" Content="Nessuna curva"/>
+                <ComboBoxItem Name="Curve_1" Tag="Curve_1" Content="Curva vetro 1"/>
+                <ComboBoxItem Name="Curve_2" Tag="Curve_2" Content="Curva vetro 2"/>
+                <ComboBoxItem Name="Curve_3" Tag="Curve_3" Content="Curva vetro 3"/>
+            </ComboBox>
+            
+            <Label x:Name="Temp_Label" Content="Temperatura finale:" HorizontalAlignment="Center" Margin="5,0,0,0" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0"/>
+            <TextBox x:Name="TempValue_TextBox" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="60"/>
+            <Label x:Name="TempUm_Label" Content="°C" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2"/>
 
-            <Button x:Name="OnOff_Button" Content="Accendi" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Center" Grid.ColumnSpan="3" Width="100" Height="50" Click="OnOff_Button_Click" Visibility="Hidden" IsEnabled="false"/>
+            <Button x:Name="OnOff_Button" Content="Accendi" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="2" VerticalAlignment="Center" Grid.ColumnSpan="3" Width="100" Height="50" Click="OnOff_Button_Click" Visibility="Hidden" IsEnabled="false"/>
 
-            <Label x:Name="Time_Label" Content="Tempo impiegato:" HorizontalAlignment="Center" Margin="5,0,0,0" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0"/>
-            <TextBox x:Name="TimeValue_TextBox" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="60"/>
-            <Label x:Name="TimeUm_Label" Content="Ora(:minuti)" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2"/>
+            <Label x:Name="Time_Label" Content="Tempo impiegato:" HorizontalAlignment="Center" Margin="5,0,0,0" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0"/>
+            <TextBox x:Name="TimeValue_TextBox" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="60"/>
+            <Label x:Name="TimeUm_Label" Content="Ora(:minuti)" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center" Grid.Row="2" Grid.Column="2"/>
 
-            <Button x:Name="Insert_Button" Content="Inserisci" HorizontalAlignment="Center" Margin="0,-20,0,0" Grid.Row="2" VerticalAlignment="Center" Grid.ColumnSpan="3" Width="100" Click="Insert_Button_Click"/>
+            <Button x:Name="Insert_Button" Content="Inserisci" HorizontalAlignment="Center" Margin="0,-20,0,0" Grid.Row="3" VerticalAlignment="Center" Grid.ColumnSpan="3" Width="100" Click="Insert_Button_Click"/>
 
         </Grid>
         <Grid Grid.Row="3">

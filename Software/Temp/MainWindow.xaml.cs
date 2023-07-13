@@ -31,33 +31,10 @@ namespace Temp
 
             Select_Com.ItemsSource = SerialPort.GetPortNames();
             Select_Com.SelectedIndex = 0;
+            Curve_ComboBox.SelectedIndex = 1;
 
 #if EMULATE
             myOven = new OvenSim(3.0, 1.5, 20);
-#endif
-#if SAMPLECURVE
-            /*InsertCurvePoint(100,10);
-            InsertCurvePoint(200,0);
-            InsertCurvePoint(200,5);
-            InsertCurvePoint(100,0);
-            InsertCurvePoint(100,5);
-            InsertCurvePoint(20,0);*/
-
-           /* InsertCurvePoint(500, 120);
-            InsertCurvePoint(500, 15);
-            InsertCurvePoint(770, 0);
-            InsertCurvePoint(770, 10);
-            InsertCurvePoint(480, 0);
-            InsertCurvePoint(480, 60);*/
-
-            InsertCurvePoint(500, 120);
-            InsertCurvePoint(500, 15);
-            InsertCurvePoint(770, 0);
-            InsertCurvePoint(770, 10);
-            InsertCurvePoint(850, 0);
-            InsertCurvePoint(850, 10);
-            InsertCurvePoint(480, 0);
-            InsertCurvePoint(480, 60);
 #endif
         }
 
@@ -81,6 +58,7 @@ namespace Temp
                 Select_Com.IsEnabled = false;
                 Start_button.IsEnabled = true;
                 OnOff_Button.IsEnabled = true;
+                Curve_ComboBox.IsEnabled = false;
                 Pause_button.Visibility = Visibility.Visible;
 #else
                 if (Select_Com.Text != "")
@@ -99,6 +77,7 @@ namespace Temp
                         Select_Com.IsEnabled = false;
                         Start_button.IsEnabled = true;
                         OnOff_Button.IsEnabled = true;
+                        Curve_ComboBox.IsEnabled = false;
                         Pause_button.Visibility = Visibility.Visible;
                     }
                     else
@@ -127,6 +106,7 @@ namespace Temp
                     Clear_Button.IsEnabled = true;
                     Select_Com.IsEnabled = true;
                     OnOff_Button.IsEnabled = false;
+                    Curve_ComboBox.IsEnabled = true;
                     Pause_button.Visibility = Visibility.Hidden;
 
                 enableDelete = true;
@@ -145,6 +125,7 @@ namespace Temp
                     Clear_Button.IsEnabled = true;
                     Select_Com.IsEnabled = true;
                     OnOff_Button.IsEnabled = false;
+                    Curve_ComboBox.IsEnabled = true;
                     Pause_button.Visibility = Visibility.Hidden;
 
                     enableDelete = true;
@@ -404,7 +385,8 @@ namespace Temp
             TotalTime = 0;
             Index = 0;
 
-            steps_grid.Items.Clear();
+            if(steps_grid != null)
+                steps_grid.Items.Clear();
         }
 
         void Refresh_graph()
@@ -433,7 +415,10 @@ namespace Temp
 #else
             string rawString = handlerArduino.Read_Temp_and_Status();
             ReadTemperature = Convert.ToInt32(rawString.Split(';')[0]);
-            Status = Convert.ToBoolean(rawString.Split(';')[1]);
+            if (rawString.Split(';')[1].Contains("0"))
+                Status = false;
+            else
+                Status = true;
 #endif
             Dispatcher.Invoke(() =>
             {
@@ -509,7 +494,7 @@ namespace Temp
                 TimeCount_Value_Label.Content = hour.ToString("00") + ":" + minute.ToString("00") + " h";
                 int lefthour = Convert.ToInt32(Math.Floor(((double)IdealCurve.Count() - MinutePassed)/60));
                 int leftminute = Convert.ToInt32((double)IdealCurve.Count() - MinutePassed)-(lefthour*60);
-                if(lefthour > 0 && leftminute > 0) { 
+                if(lefthour >= 0 && leftminute >= 0) { 
                     TimeExpected_Value_Label.Content = lefthour.ToString("00") + ":" + leftminute.ToString("00") + " h";
                 }
                 else
@@ -782,6 +767,45 @@ namespace Temp
             Index++;
         }
 
+        private void Curve_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (steps_grid != null)
+            {
+                Clear_Button_Click(null, e);
+                switch (((ComboBoxItem)Curve_ComboBox.SelectedItem).Tag)
+                {
+                    case "Curve_1":
+                        InsertCurvePoint(500, 120);
+                        InsertCurvePoint(500, 15);
+                        InsertCurvePoint(770, 0);
+                        InsertCurvePoint(770, 10);
+                        InsertCurvePoint(850, 0);
+                        InsertCurvePoint(850, 10);
+                        InsertCurvePoint(480, 0);
+                        InsertCurvePoint(480, 60);
+                        break;
+                    case "Curve_2":
+                        InsertCurvePoint(100, 10);
+                        InsertCurvePoint(200, 0);
+                        InsertCurvePoint(200, 5);
+                        InsertCurvePoint(100, 0);
+                        InsertCurvePoint(100, 5);
+                        InsertCurvePoint(20, 0);
+                        break;
+                    case "Curve_3":
+                        InsertCurvePoint(500, 120);
+                        InsertCurvePoint(500, 15);
+                        InsertCurvePoint(770, 0);
+                        InsertCurvePoint(770, 10);
+                        InsertCurvePoint(480, 0);
+                        InsertCurvePoint(480, 60);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
         /// <summary>
         /// Ideal Curve
         /// </summary>
@@ -888,6 +912,7 @@ namespace Temp
 
 #if EMULATE
         OvenSim myOven;
+
 #endif
 
     }

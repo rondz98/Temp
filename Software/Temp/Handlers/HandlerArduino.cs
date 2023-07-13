@@ -11,6 +11,8 @@ namespace Temp.Handlers
             try
             {
                 port = new SerialPort(portname, 9600, Parity.None, 8, StopBits.One);
+                port.ReadTimeout = 3000;
+                port.WriteTimeout = 3000;
                 port.Open();
             }
             catch {
@@ -25,7 +27,9 @@ namespace Temp.Handlers
             try
             {
                 if (port != null)
+                {
                     port.Close();
+                }
             }
             catch
             {
@@ -48,8 +52,9 @@ namespace Temp.Handlers
                         {
                             ClearCom();
                             port.Write("R");
+                            Thread.Sleep(100);
                             readTemp_and_status = port.ReadLine();
-                            retry = 0;
+                            retry = -1;
                         }
                         catch
                         {
@@ -83,6 +88,7 @@ namespace Temp.Handlers
                     {
                         ClearCom();
                         port.WriteLine(String.Format("W;{0}", output));
+                        Thread.Sleep(100);
                         string read = port.ReadLine();
                         if (!read.Contains(String.Format("S;{0}", output)))
                         {
@@ -90,7 +96,7 @@ namespace Temp.Handlers
                         }
                         else
                         { 
-                            retry = 0; 
+                            retry = -1; 
                         }
                     }
                 }
@@ -98,6 +104,12 @@ namespace Temp.Handlers
                 {
                     retry--;
                 }
+            }
+            if (retry == 0)
+            {
+                Disconnect();
+                Thread.Sleep(300);
+                Connect(port.PortName);
             }
 
             return true;

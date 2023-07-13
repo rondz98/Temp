@@ -60,6 +60,6 @@ namespace Temp
         {
             return _temp;
         }
-    }
 #endif
+    }
 }
