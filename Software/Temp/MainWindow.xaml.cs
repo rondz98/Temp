@@ -12,8 +12,9 @@ using System.Threading;
 using System.Timers;
 using LiveCharts.Configurations;
 using System.Windows.Media;
-using Application = System.Windows.Application;
 using Temp.Handlers;
+using Temp.Helpers;
+using Temp.Entities;
 
 namespace Temp
 {
@@ -31,11 +32,58 @@ namespace Temp
 
             Select_Com.ItemsSource = SerialPort.GetPortNames();
             Select_Com.SelectedIndex = 0;
-            Curve_ComboBox.SelectedIndex = 1;
-
 #if EMULATE
             myOven = new OvenSim(3.0, 1.5, 20);
 #endif
+            curveParser = new CustomCurveParse();
+            graphHelper= new GraphHelper();
+            string previousCurve = Properties.Settings.Default.LastCurve;
+            int index = -1;
+            parseCurvesFiles(index);
+            if (previousCurve != "")
+            {
+                for( int i = 0; i < Curve_ComboBox.Items.Count; i++)
+                {
+                    if (((ComboBoxItem)Curve_ComboBox.Items[i]).Tag.ToString() == previousCurve)
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+            }
+            parseCurvesFiles(index);
+
+            Refresh_IdealCurve(string.IsNullOrEmpty(previousCurve) ? "": previousCurve);
+        }
+
+        private void parseCurvesFiles(int previousSelected = -1){
+            curveParser.parseFiles();
+            Curve_ComboBox.Items.Clear();
+            ComboBoxItem comboBoxItem = new ComboBoxItem();
+            comboBoxItem.Tag = "None";
+            comboBoxItem.Name = "None_" + 0;
+            comboBoxItem.Content = "Curva personalizzata";
+            Curve_ComboBox.Items.Add(comboBoxItem);
+
+            Curve_ComboBox.SelectedIndex = 0;
+
+            if (curveParser.curves.Count > 0)
+            {
+                int i = 1;
+                foreach (Curve curve in curveParser.curves)
+                {
+                    comboBoxItem = new ComboBoxItem();
+                    comboBoxItem.Tag = curve.Name;
+                    comboBoxItem.Name = curve.Name + "_" + i;
+                    comboBoxItem.Content = curve.Name;
+                    Curve_ComboBox.Items.Add(comboBoxItem);
+                    i++;
+                }
+            }
+            if (previousSelected != -1)
+            {
+                Curve_ComboBox.SelectedIndex = previousSelected;
+            }
         }
 
         private void ComboBox_DropDownOpened(object sender, EventArgs e)
@@ -45,14 +93,13 @@ namespace Temp
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            Mouse.OverrideCursor = Cursors.Wait;
             if (String.Compare(Connect_button.Content.ToString(), "Connetti") == 0)
             {
 #if EMULATE
-                Mouse.OverrideCursor = Cursors.Wait;
                 WorkingTimer.Interval = ReadingTempTimerRate;
                 WorkingTimer.Elapsed += ReadingTempTimer_Elapsed;
                 WorkingTimer.Start();
-                Mouse.OverrideCursor = null;
 
                 Connect_button.Content = "Disconnetti";
                 Select_Com.IsEnabled = false;
@@ -65,20 +112,23 @@ namespace Temp
                 {
                     if (handlerArduino.Connect(Select_Com.Text))
                     {
-
                         Thread.Sleep(100);
+                        if (handlerArduino.Read_Temp_and_Status(true) != "failed") {
+                            WorkingTimer.Interval = ReadingTempTimerRate;
+                            WorkingTimer.Elapsed += ReadingTempTimer_Elapsed;
+                            WorkingTimer.Start();
 
-                        WorkingTimer.Interval = ReadingTempTimerRate;
-                        WorkingTimer.Elapsed += ReadingTempTimer_Elapsed;
-                        WorkingTimer.Start();
-                        Mouse.OverrideCursor = null;
-
-                        Connect_button.Content = "Disconnetti";
-                        Select_Com.IsEnabled = false;
-                        Start_button.IsEnabled = true;
-                        OnOff_Button.IsEnabled = true;
-                        Curve_ComboBox.IsEnabled = false;
-                        Pause_button.Visibility = Visibility.Visible;
+                            Connect_button.Content = "Disconnetti";
+                            Select_Com.IsEnabled = false;
+                            Start_button.IsEnabled = true;
+                            OnOff_Button.IsEnabled = true;
+                            Curve_ComboBox.IsEnabled = false;
+                            Pause_button.Visibility = Visibility.Visible;
+                        }
+                        else
+                        {
+                            MessageBox.Show("La porta selezionata non è quella giusta poichè non ha risposto ai comandi!.", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
                     }
                     else
                     {
@@ -94,22 +144,18 @@ namespace Temp
             else
             {
 #if EMULATE
-                    Start_button.IsEnabled = false;
-                    Connect_button.Content = "Connetti";
-                    if (WorkingTimer.Enabled)
-                        WorkingTimer.Stop();
-                    if (OngoingTimer.Enabled)
-                        OngoingTimer.Stop();
-                    MinutePassed = 0;
+                Start_button.IsEnabled = false;
+                Connect_button.Content = "Connetti";
+                if (WorkingTimer.Enabled)
+                    WorkingTimer.Stop();
+                if (OngoingTimer.Enabled)
+                    OngoingTimer.Stop();
+                MinutePassed = 0;
 
-                    Insert_Button.IsEnabled = true;
-                    Clear_Button.IsEnabled = true;
-                    Select_Com.IsEnabled = true;
-                    OnOff_Button.IsEnabled = false;
-                    Curve_ComboBox.IsEnabled = true;
-                    Pause_button.Visibility = Visibility.Hidden;
-
-                enableDelete = true;
+                Select_Com.IsEnabled = true;
+                OnOff_Button.IsEnabled = false;
+                Curve_ComboBox.IsEnabled = true;
+                Pause_button.Visibility = Visibility.Hidden;
 #else
                 if (handlerArduino.Disconnect())
                 {
@@ -121,14 +167,11 @@ namespace Temp
                         OngoingTimer.Stop();
                     MinutePassed = 0;
 
-                    Insert_Button.IsEnabled = true;
-                    Clear_Button.IsEnabled = true;
+                    Custom_Button.IsEnabled = true;
                     Select_Com.IsEnabled = true;
                     OnOff_Button.IsEnabled = false;
                     Curve_ComboBox.IsEnabled = true;
                     Pause_button.Visibility = Visibility.Hidden;
-
-                    enableDelete = true;
                 }
                 else
                 {
@@ -136,6 +179,8 @@ namespace Temp
                 }
 #endif
             }
+
+            Mouse.OverrideCursor = null;
         }
 
 
@@ -156,11 +201,9 @@ namespace Temp
 
                     Start_button.Content = "Ferma";
 
-                    Insert_Button.IsEnabled = false;
-                    Clear_Button.IsEnabled = false;
+                    Custom_Button.IsEnabled = false;
                     Mode_button.IsEnabled = false;
                     Pause_button.IsEnabled = true;
-                    enableDelete = false;
 
                 }
                 else
@@ -169,243 +212,50 @@ namespace Temp
                     OngoingTimer.Stop();
                     ReadingChart.Clear();
                     MinutePassed = 0;
-                    Insert_Button.IsEnabled = true;
-                    Clear_Button.IsEnabled = true;
+                    Custom_Button.IsEnabled = true;
                     Mode_button.IsEnabled = true;
                     Pause_button.IsEnabled = false;
-                    enableDelete = true;
                 }
             }
             else
             {
-                MessageBox.Show("Creare prima una curva!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Selezionare prima una curva!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        private void CurvesGeneration(int time = -1)
+        private void Custom_Button_Click(object sender, RoutedEventArgs e)
         {
-            double coefficient = 1;
-            if (time != -1)
-            {
-                if(time > 1)
-                    coefficient = (points[Index].MaxTempValue - points[Index].MinTempValue) / Convert.ToDouble(time);
-            }
-            else
-            {
-                coefficient = (points[Index].MaxTempValue - points[Index].MinTempValue) / Convert.ToDouble(TimeInMinute);
-            }
-            double value = points[Index].MinTempValue;
+            string curveName = (Curve_ComboBox.SelectedItem as ComboBoxItem).Tag.ToString();
+            int selectedIndex = Curve_ComboBox.SelectedIndex;
+            CurveCustomization curveCustomization = new CurveCustomization(curveParser, curveName);
+            curveCustomization.ShowDialog();
 
-            int delta = 0;
-            if (points[Index].MinTimeValue == 0)
-                delta = 1;
-
-            for (int i = points[Index].MinTimeValue; i < points[Index].MaxTimeValue + delta; i++)
-            {
-                if (coefficient != 0)
-                {
-                    if (value < PhysicalLimit)
-                        IdealCurve.Add(value);
-                    else
-                        IdealCurve.Add(PhysicalLimit);
-                    value = coefficient + value;
-                }
-                else
-                {
-                    IdealCurve.Add(points[Index].MaxTempValue);
-                }
-            }
-
-            Refresh_graph();
+            parseCurvesFiles(selectedIndex);
+            Refresh_IdealCurve(curveName);
         }
 
-        private void AddPointOnCurve(Points point)
+        void Refresh_IdealCurve(string curveName)
         {
-            IdealCurve.Insert(MinutePassed + 1, point.MaxTempValue);
-            Refresh_graph();
-        }
-
-        private void Insert_Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (TimeValue_TextBox.Text != "" && TempValue_TextBox.Text != "")
-            {
-                try
+            if (!string.IsNullOrEmpty(curveName)){
+                Curve usedCurve = curveParser.parseCurveFromName(curveName);
+                if (usedCurve != null)
                 {
-                    if (TimeValue_TextBox.Text.Contains(':'))
+                    IdealCurve = graphHelper.graphGeneration(usedCurve, ReadTemperature);
+                    Dispatcher.Invoke(() =>
                     {
-                        TimeInMinute = (Convert.ToInt32(TimeValue_TextBox.Text.Split(':')[0]) * 60) + Convert.ToInt32(TimeValue_TextBox.Text.Split(':')[1]);
-                    }
-                    else
-                    {
-                        TimeInMinute = Convert.ToInt32(TimeValue_TextBox.Text) * 60;
-                    }
-                    if (TimeInMinute == 0)
-                        TimeInMinute = 1;
-                }
-                catch
-                {
-                    MessageBox.Show("Formato dell'ora inserito errato!", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-                TotalTime += TimeInMinute;
-
-                Points point = new Points();
-                point.ID = Index + 1;
-                if (points.Count() > 0)
-                {
-                    point.MinTempValue = points.Last().MaxTempValue;
-                    point.MinTimeValue = points.Last().MaxTimeValue;
-                }
-                else
-                {
-                    point.MinTempValue = Convert.ToDouble(ReadTemperature);
-                    point.MinTimeValue = 0;
-                }
-
-                point.MaxTimeValue = TimeInMinute + point.MinTimeValue;
-                point.MaxTempValue = Convert.ToDouble(TempValue_TextBox.Text);
-
-                points.Add(point);
-
-                Grid grid = new Grid();
-                grid.Name = "Curve_point_" + Index;
-
-                Label LabelId = new Label();
-                LabelId.Name = "LabelId_" + Index;
-                LabelId.Margin = new Thickness(1, 2, 2, 2);
-                LabelId.HorizontalAlignment = HorizontalAlignment.Left;
-                LabelId.VerticalAlignment = VerticalAlignment.Top;
-                LabelId.VerticalContentAlignment = VerticalAlignment.Center;
-                LabelId.Width = 30;
-                LabelId.Height = 30;
-                LabelId.Content = Index;
-                grid.Children.Add(LabelId);
-
-                Label LabelTemp = new Label();
-                LabelTemp.Name = "LabelTemp_" + Index;
-                LabelTemp.Margin = new Thickness(31, 2, 2, 2);
-                LabelTemp.HorizontalAlignment = HorizontalAlignment.Left;
-                LabelTemp.VerticalAlignment = VerticalAlignment.Top;
-                LabelTemp.VerticalContentAlignment = VerticalAlignment.Center;
-                LabelTemp.Width = 80;
-                LabelTemp.Height = 30;
-                LabelTemp.Content = TempValue_TextBox.Text;
-                grid.Children.Add(LabelTemp);
-
-                Label LabelTime = new Label();
-                LabelTime.Name = "LabelTime_" + Index;
-                LabelTime.Margin = new Thickness(111, 2, 2, 2);
-                LabelTime.HorizontalAlignment = HorizontalAlignment.Left;
-                LabelTime.VerticalAlignment = VerticalAlignment.Top;
-                LabelTime.VerticalContentAlignment = VerticalAlignment.Center;
-                LabelTime.Width = 50;
-                LabelTime.Height = 30;
-                LabelTime.Content = TimeInMinute;
-                grid.Children.Add(LabelTime);
-
-                Button ButtonDelete = new Button();
-                ButtonDelete.Name = "ButtonDelete_" + Index;
-                ButtonDelete.Margin = new Thickness(161, 2, 2, 2);
-                ButtonDelete.HorizontalAlignment = HorizontalAlignment.Left;
-                ButtonDelete.VerticalAlignment = VerticalAlignment.Top;
-                ButtonDelete.VerticalContentAlignment = VerticalAlignment.Center;
-                ButtonDelete.Width = 70;
-                ButtonDelete.Height = 30;
-                ButtonDelete.Content = "Cancella";
-                ButtonDelete.Click += ButtonDelete_Click;
-                grid.Children.Add(ButtonDelete);
-
-                steps_grid.Items.Add(grid);
-
-                CurvesGeneration();
-                Index++;
-            }
-            else
-            {
-                MessageBox.Show("Inserire un valore per Temperatura e tempo!", "Errore", MessageBoxButton.OK);
-            }
-        }
-
-        private void ButtonDelete_Click(object sender, RoutedEventArgs e)
-        {
-            if (enableDelete)
-            {
-                int i = 0;
-                foreach (Grid item in steps_grid.Items)
-                {
-                    if (item.Name == "Curve_point_" + ((FrameworkElement)sender).Name.Split("_")[1])
-                    {
-                        if (points.Count() > 1)
+                        ch.Series = new SeriesCollection
                         {
-                            for (int j = points[i].MaxTimeValue + 1; j >= points[i].MinTimeValue; j--)
+                            new LineSeries
                             {
-                                IdealCurve.RemoveAt(j);
+                                Title = "Curva ideale",
+                                Values = IdealCurve.AsChartValues()
                             }
-                        }
-                        else
-                        {
-                            Clear_Button_Click(null, e);
-                        }
-                        Refresh_graph(); 
-                        if (i < points.Count - 1)
-                        {
-                            for (int j = i; j < points.Count - 1; j++)
-                            {
-                                int diff = points[j + 1].MaxTimeValue - points[j + 1].MinTimeValue;
-                                if (j - 1 > 0)
-                                    points[j].MinTimeValue = points[j - 1].MaxTimeValue;
-                                points[j].MaxTimeValue = points[j].MinTimeValue + diff;
-                                points[j].MinTempValue = points[j + 1].MinTempValue;
-                                points[j].MaxTempValue = points[j + 1].MaxTempValue;
-                            }
-                        }
-                        if (points.Count > 0)
-                        {
-                            points.RemoveAt(points.Count - 1);
-                            steps_grid.Items.RemoveAt(i);
-                            Index--;
-                        }
-                        return;
-                    }
-                    i++;
+                        };
+                        GraphGrid.Children.Clear();
+                        GraphGrid.Children.Add(ch);
+                    });
                 }
             }
-            else
-            {
-                MessageBox.Show("Impossibile cancellare la curva durante l'utilizzo", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private void Clear_Button_Click(object sender, RoutedEventArgs e)
-        {
-            GraphGrid.Children.Clear();
-            IdealCurve.Clear();
-            points.Clear();
-
-            TotalTime = 0;
-            Index = 0;
-
-            if(steps_grid != null)
-                steps_grid.Items.Clear();
-        }
-
-        void Refresh_graph()
-        {
-
-            Dispatcher.Invoke(() =>
-            {
-                ch.Series = new SeriesCollection
-                {
-                    new LineSeries
-                    {
-                        Title = "Curva ideale",
-                        Values = IdealCurve.AsChartValues()
-                    }
-                };
-
-                GraphGrid.Children.Clear();
-                GraphGrid.Children.Add(ch);
-            });
         }
 
         private void ReadingTempTimer_Elapsed(object? sender, ElapsedEventArgs e)
@@ -442,11 +292,50 @@ namespace Temp
 
         private void OngoingTimer_Elapsed(object? sender, ElapsedEventArgs e)
         {
-            bool addingPointNotNeeded = false;
+            bool addPoint = true;
 
-            if (OnGoingIndex < points.Count - 1)
+            if (OnGoingIndex < graphHelper.wantedCurve.points.Count - 1)
             {
-                if (points[OnGoingIndex].MinTempValue < points[OnGoingIndex].MaxTempValue)
+                int ComplessiveTime = 0;
+                if (OnGoingIndex > 0)
+                {
+                    for(int i = 0; i< OnGoingIndex-1; i++)
+                    {
+                        ComplessiveTime += graphHelper.wantedCurve.points[i].TimeValue;
+                    }
+                }
+
+                if (MinutePassed == (graphHelper.wantedCurve.points[OnGoingIndex].TimeValue + ComplessiveTime))
+                {
+                    if (graphHelper.IdealCurve[MinutePassed] < graphHelper.wantedCurve.points[OnGoingIndex].TempValue)
+                    {
+                        if (ReadTemperature >= graphHelper.wantedCurve.points[OnGoingIndex].TempValue)
+                        {
+                            OnGoingIndex++;
+                        }
+                    }
+                    else
+                    {
+                        if (graphHelper.IdealCurve[MinutePassed] > graphHelper.wantedCurve.points[OnGoingIndex].TempValue)
+                        {
+                            if (ReadTemperature <= graphHelper.wantedCurve.points[OnGoingIndex].TempValue)
+                            {
+                                OnGoingIndex++;
+                            }
+                        }
+                        else
+                        {
+                            addPoint = false;
+                            OnGoingIndex++;
+                        }
+                    }
+
+                    if (addPoint)
+                    {
+                        AddPointOnCurve();
+                    }
+                }
+                /*if (points[OnGoingIndex].MinTempValue < points[OnGoingIndex].MaxTempValue)
                 {
                     if (ReadTemperature >= points[OnGoingIndex].MaxTempValue)
                     {
@@ -485,7 +374,7 @@ namespace Temp
                             points[i].MaxTimeValue++;
                         }
                     }
-                }
+                }*/
             }
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
@@ -519,7 +408,7 @@ namespace Temp
                 .X((value, index) => MinutePassed)
                 .Y((value, index) => value);
 
-            var p = new Point() { X = MinutePassed, Y = ReadTemperature };
+            var p = new System.Windows.Point() { X = MinutePassed, Y = ReadTemperature };
             ReadingChart.Add(p);
 
             Application.Current.Dispatcher.Invoke(new Action(() =>
@@ -534,7 +423,7 @@ namespace Temp
                     PointGeometrySize = 10,
                     PointForeground = Brushes.Red
                 };
-                ReadingPoint.Configuration = new CartesianMapper<Point>()
+                ReadingPoint.Configuration = new CartesianMapper<System.Windows.Point>()
                         .X(p => p.X)
                         .Y(p => p.Y);
                 ReadingPoint.Values = ReadingChart;
@@ -552,6 +441,15 @@ namespace Temp
                 GraphGrid.Children.Add(ch);
             }));
             Thread.Sleep(200);
+        }
+
+        private void AddPointOnCurve()
+        {
+            IdealCurve.Insert(MinutePassed + 1, graphHelper.wantedCurve.points[OnGoingIndex + 1].TempValue);
+            Dispatcher.Invoke(() =>
+            {
+                Refresh_IdealCurve((Curve_ComboBox.SelectedItem as ComboBoxItem).Tag.ToString());
+            });
         }
 
         private void RegulateTemp(bool hasreference)
@@ -611,16 +509,7 @@ namespace Temp
                 Start_button.Visibility = Visibility.Hidden;
 
                 OnOff_Button.Visibility = Visibility.Visible;
-                Temp_Label.Visibility = Visibility.Hidden;
-                TempUm_Label.Visibility = Visibility.Hidden;
-                Time_Label.Visibility = Visibility.Hidden;
-                TimeUm_Label.Visibility = Visibility.Hidden;
-                TimeValue_TextBox.Visibility = Visibility.Hidden;
-                TempValue_TextBox.Visibility = Visibility.Hidden;
-                Insert_Button.Visibility = Visibility.Hidden;
-
-                Title_grid.Visibility = Visibility.Hidden;
-                steps_grid.Visibility = Visibility.Hidden;
+                Custom_Button.Visibility = Visibility.Hidden;
 
                 Mode_button.Content = "Modalità auto";
             }
@@ -629,16 +518,7 @@ namespace Temp
                 Start_button.Visibility = Visibility.Visible;
 
                 OnOff_Button.Visibility = Visibility.Hidden;
-                Temp_Label.Visibility = Visibility.Visible;
-                TempUm_Label.Visibility = Visibility.Visible;
-                Time_Label.Visibility = Visibility.Visible;
-                TimeUm_Label.Visibility = Visibility.Visible;
-                TimeValue_TextBox.Visibility = Visibility.Visible;
-                TempValue_TextBox.Visibility = Visibility.Visible;
-                Insert_Button.Visibility = Visibility.Visible;
-
-                Title_grid.Visibility = Visibility.Visible;
-                steps_grid.Visibility = Visibility.Visible;
+                Custom_Button.Visibility = Visibility.Visible;
                 if(String.Compare(Connect_button.Content.ToString(), "Disconnetti") == 0)
                     OnOff_Button_Click(null, e);
                 Mode_button.Content = "Modalità manuale";
@@ -693,118 +573,27 @@ namespace Temp
 
         }
 
-        private void InsertCurvePoint(double Temp, int duration)
-        {
-            Points point = new Points();
-            point.ID = Index + 1;
-            if (points.Count() > 0)
-            {
-                point.MinTempValue = points.Last().MaxTempValue;
-                point.MinTimeValue = points.Last().MaxTimeValue;
-            }
-            else
-            {
-                point.MinTempValue = Convert.ToDouble(ReadTemperature);
-                point.MinTimeValue = 0;
-            }
-
-            point.MaxTimeValue = duration + point.MinTimeValue;
-            point.MaxTempValue = Convert.ToDouble(Temp);
-
-            points.Add(point);
-
-            Grid grid = new Grid();
-            grid.Name = "Curve_point_" + Index;
-
-            Label LabelId = new Label();
-            LabelId.Name = "LabelId_" + Index;
-            LabelId.Margin = new Thickness(1, 2, 2, 2);
-            LabelId.HorizontalAlignment = HorizontalAlignment.Left;
-            LabelId.VerticalAlignment = VerticalAlignment.Top;
-            LabelId.VerticalContentAlignment = VerticalAlignment.Center;
-            LabelId.Width = 30;
-            LabelId.Height = 30;
-            LabelId.Content = Index;
-            grid.Children.Add(LabelId);
-
-            Label LabelTemp = new Label();
-            LabelTemp.Name = "LabelTemp_" + Index;
-            LabelTemp.Margin = new Thickness(31, 2, 2, 2);
-            LabelTemp.HorizontalAlignment = HorizontalAlignment.Left;
-            LabelTemp.VerticalAlignment = VerticalAlignment.Top;
-            LabelTemp.VerticalContentAlignment = VerticalAlignment.Center;
-            LabelTemp.Width = 80;
-            LabelTemp.Height = 30;
-            LabelTemp.Content = Temp;
-            grid.Children.Add(LabelTemp);
-
-            Label LabelTime = new Label();
-            LabelTime.Name = "LabelTime_" + Index;
-            LabelTime.Margin = new Thickness(111, 2, 2, 2);
-            LabelTime.HorizontalAlignment = HorizontalAlignment.Left;
-            LabelTime.VerticalAlignment = VerticalAlignment.Top;
-            LabelTime.VerticalContentAlignment = VerticalAlignment.Center;
-            LabelTime.Width = 50;
-            LabelTime.Height = 30;
-            LabelTime.Content = duration;
-            grid.Children.Add(LabelTime);
-
-            Button ButtonDelete = new Button();
-            ButtonDelete.Name = "ButtonDelete_" + Index;
-            ButtonDelete.Margin = new Thickness(161, 2, 2, 2);
-            ButtonDelete.HorizontalAlignment = HorizontalAlignment.Left;
-            ButtonDelete.VerticalAlignment = VerticalAlignment.Top;
-            ButtonDelete.VerticalContentAlignment = VerticalAlignment.Center;
-            ButtonDelete.Width = 70;
-            ButtonDelete.Height = 30;
-            ButtonDelete.Content = "Cancella";
-            ButtonDelete.Click += ButtonDelete_Click;
-            grid.Children.Add(ButtonDelete);
-
-            steps_grid.Items.Add(grid);
-
-            CurvesGeneration(duration);
-            Index++;
-        }
-
         private void Curve_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (steps_grid != null)
+            if (Curve_ComboBox.SelectedItem != null)
             {
-                Clear_Button_Click(null, e);
-                switch (((ComboBoxItem)Curve_ComboBox.SelectedItem).Tag)
-                {
-                    case "Curve_1":
-                        InsertCurvePoint(500, 120);
-                        InsertCurvePoint(500, 15);
-                        InsertCurvePoint(770, 0);
-                        InsertCurvePoint(770, 10);
-                        InsertCurvePoint(850, 0);
-                        InsertCurvePoint(850, 10);
-                        InsertCurvePoint(480, 0);
-                        InsertCurvePoint(480, 60);
-                        break;
-                    case "Curve_2":
-                        InsertCurvePoint(100, 10);
-                        InsertCurvePoint(200, 0);
-                        InsertCurvePoint(200, 5);
-                        InsertCurvePoint(100, 0);
-                        InsertCurvePoint(100, 5);
-                        InsertCurvePoint(20, 0);
-                        break;
-                    case "Curve_3":
-                        InsertCurvePoint(500, 120);
-                        InsertCurvePoint(500, 15);
-                        InsertCurvePoint(770, 0);
-                        InsertCurvePoint(770, 10);
-                        InsertCurvePoint(480, 0);
-                        InsertCurvePoint(480, 60);
-                        break;
-                    default:
-                        break;
-                }
+                Refresh_IdealCurve((Curve_ComboBox.SelectedItem as ComboBoxItem).Tag.ToString());
             }
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if ((Curve_ComboBox.SelectedItem as ComboBoxItem).Tag.ToString() != "None")
+            {
+                Properties.Settings.Default.LastCurve = (Curve_ComboBox.SelectedItem as ComboBoxItem).Tag.ToString();
+            }
+            Properties.Settings.Default.Save();
+        }
+
+        /// <summary>
+        /// parser for custom curves files
+        /// </summary>
+        CustomCurveParse curveParser;
 
         /// <summary>
         /// Ideal Curve
@@ -812,29 +601,14 @@ namespace Temp
         List<double> IdealCurve = new List<double>();
 
         /// <summary>
-        /// Total time
-        /// </summary>
-        int TotalTime = 0;
-
-        /// <summary>
         /// read temperature value
         /// </summary>
         int ReadTemperature = 0;
 
         /// <summary>
-        /// Index used for curve naming
-        /// </summary>
-        int Index;
-
-        /// <summary>
         /// Minute passed from the start of monitorization
         /// </summary>
         int MinutePassed;
-
-        /// <summary>
-        /// List of temperature points
-        /// </summary>
-        List<Points> points = new List<Points>();
 
         /// <summary>
         /// CartesianChart used to display temperature curve
@@ -861,19 +635,9 @@ namespace Temp
 #endif
 
         /// <summary>
-        /// Physical temperature limit of the machine
-        /// </summary>
-        const int PhysicalLimit = 2000;
-
-        /// <summary>
         /// Last point in the graph
         /// </summary>
         LineSeries LastPoint;
-
-        /// <summary>
-        /// enable deleting
-        /// </summary>
-        bool enableDelete = true;
 
         /// <summary>
         /// Handler for Arduino communication
@@ -883,7 +647,7 @@ namespace Temp
         /// <summary>
         /// Chart of the reading temperature
         /// </summary>
-        ChartValues<Point> ReadingChart = new ChartValues<Point>();
+        ChartValues<System.Windows.Point> ReadingChart = new ChartValues<System.Windows.Point>();
 
         /// <summary>
         /// Point of the reading temperature
@@ -896,23 +660,17 @@ namespace Temp
         LineSeries LastPointReading;
 
         /// <summary>
-        /// Time in minutes from hour
-        /// </summary>
-        int TimeInMinute = 0;
-
-        /// <summary>
         /// index of ongoing points
         /// </summary>
         int OnGoingIndex = 0;
 
         /// <summary>
-        /// status of the oven
+        /// Helper for graph creation
         /// </summary>
-        bool Status = false;
+        GraphHelper graphHelper;
 
 #if EMULATE
         OvenSim myOven;
-
 #endif
 
     }

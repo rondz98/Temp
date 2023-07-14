@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\User\Documents\Temp\Software\Temp\obj\Debug\net6.0-windows\
+C:\Users\sro\Documents\GitHub\Temp\Software\Temp\obj\Debug\net6.0-windows\
 Temp
 none
 false
-TRACETRACE;;DEBUG;NET;NET6_0;NETCOREAPP
-C:\Users\User\Documents\Temp\Software\Temp\App.xaml
-11407045341
+TRACE;TRACE;EMULATE;DEBUG;NET;NET6_0;NETCOREAPP
+C:\Users\sro\Documents\GitHub\Temp\Software\Temp\App.xaml
+21671173403
 
-8-569850934
-1971020920183
-MainWindow.xaml;
+13149744571
+197-783111752
+CurveCustomization.xaml;MainWindow.xaml;
 
 True
 

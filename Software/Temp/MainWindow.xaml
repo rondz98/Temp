@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Temp"
         mc:Ignorable="d"
-        Title="Software controllo forno V1.0.0.0" Height="450" Width="1000">
+        Title="Software controllo forno V1.0.1.0" Height="450" Width="1000" Closing="Window_Closing">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
@@ -15,7 +15,7 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="250"/>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
@@ -68,15 +68,10 @@
             <Button x:Name="Start_button" Grid.Column="2" Content="Avvia" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100" Click="Start_button_Click" IsEnabled="False"/>
             <Button x:Name="Pause_button" Grid.Column="3" Content="Pausa" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100" Click="Pause_button_Click" Visibility="Hidden" IsEnabled="False"/>
             <Button x:Name="Mode_button" Grid.Column="1" Content="Modalità manuale" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100" Click="Mode_button_Click" IsEnabled="True"/>
-
-
-            <Button x:Name="Clear_Button" Grid.Column="6" Content="Cancella tutto" HorizontalAlignment="Right" VerticalAlignment="Center" Width="100" Click="Clear_Button_Click" Margin="0,0,10,0"/>
         </Grid>
 
         <Grid Grid.Row="1" Grid.Column="0" Grid.RowSpan="2">
             <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
@@ -87,48 +82,12 @@
             </Grid.ColumnDefinitions>
 
             <Label x:Name="Curve_Label" Content="Curva preimpostata:" HorizontalAlignment="Center" Margin="5,0,0,0" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0"/>
-            <ComboBox x:Name="Curve_ComboBox" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Height="25" SelectionChanged="Curve_ComboBox_SelectionChanged">
-                <ComboBoxItem Name="None" Tag="None" Content="Nessuna curva"/>
-                <ComboBoxItem Name="Curve_1" Tag="Curve_1" Content="Curva vetro 1"/>
-                <ComboBoxItem Name="Curve_2" Tag="Curve_2" Content="Curva vetro 2"/>
-                <ComboBoxItem Name="Curve_3" Tag="Curve_3" Content="Curva vetro 3"/>
-            </ComboBox>
-            
-            <Label x:Name="Temp_Label" Content="Temperatura finale:" HorizontalAlignment="Center" Margin="5,0,0,0" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0"/>
-            <TextBox x:Name="TempValue_TextBox" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="60"/>
-            <Label x:Name="TempUm_Label" Content="°C" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2"/>
+            <ComboBox x:Name="Curve_ComboBox" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Height="25" SelectionChanged="Curve_ComboBox_SelectionChanged" />
 
             <Button x:Name="OnOff_Button" Content="Accendi" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="2" VerticalAlignment="Center" Grid.ColumnSpan="3" Width="100" Height="50" Click="OnOff_Button_Click" Visibility="Hidden" IsEnabled="false"/>
 
-            <Label x:Name="Time_Label" Content="Tempo impiegato:" HorizontalAlignment="Center" Margin="5,0,0,0" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0"/>
-            <TextBox x:Name="TimeValue_TextBox" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="60"/>
-            <Label x:Name="TimeUm_Label" Content="Ora(:minuti)" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center" Grid.Row="2" Grid.Column="2"/>
+            <Button x:Name="Custom_Button" Content="Customizza curva" HorizontalAlignment="Center" Margin="0,-20,0,0" Grid.Row="3" VerticalAlignment="Center" Grid.ColumnSpan="3" Width="100" Click="Custom_Button_Click"/>
 
-            <Button x:Name="Insert_Button" Content="Inserisci" HorizontalAlignment="Center" Margin="0,-20,0,0" Grid.Row="3" VerticalAlignment="Center" Grid.ColumnSpan="3" Width="100" Click="Insert_Button_Click"/>
-
-        </Grid>
-        <Grid Grid.Row="3">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Grid x:Name="Title_grid" Grid.Row="0" Height="30" VerticalAlignment="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition Width="80"/>
-                    <ColumnDefinition Width="50"/>
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Label Content="Id" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="0"/>
-                <Label Content="Temperatura" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1"/>
-                <Label Content="Tempo" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="2"/>
-
-            </Grid>
-            <ListBox x:Name="steps_grid" Grid.Row="1">
-            </ListBox>
         </Grid>
     </Grid>
 </Window>

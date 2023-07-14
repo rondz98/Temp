@@ -38,7 +38,7 @@ namespace Temp.Handlers
             return true;
         }
 
-        public string Read_Temp_and_Status()
+        public string Read_Temp_and_Status(bool isfirsttime = false)
         {
             int retry = 3;
 
@@ -70,8 +70,16 @@ namespace Temp.Handlers
             if (retry == 0)
             {
                 Disconnect();
-                Thread.Sleep(300);
-                Connect(port.PortName);
+                if (!isfirsttime)
+                {
+                    Thread.Sleep(300);
+                    Connect(port.PortName);
+                }
+                else
+                {
+                    return "failed";
+                }
+
             }
             return readTemp_and_status;
         }

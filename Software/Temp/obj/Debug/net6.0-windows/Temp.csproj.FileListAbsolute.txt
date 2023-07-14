@@ -286,3 +286,6 @@ C:\Users\User\Documents\Temp\Software\Temp\obj\Debug\net6.0-windows\refint\Temp.
 C:\Users\User\Documents\Temp\Software\Temp\obj\Debug\net6.0-windows\Temp.pdb
 C:\Users\User\Documents\Temp\Software\Temp\obj\Debug\net6.0-windows\Temp.genruntimeconfig.cache
 C:\Users\User\Documents\Temp\Software\Temp\obj\Debug\net6.0-windows\ref\Temp.dll
+C:\Users\sro\Documents\GitHub\Temp\Software\Temp\obj\Debug\net6.0-windows\CurveCustomization.g.cs
+C:\Users\sro\Documents\GitHub\Temp\Software\Temp\obj\Debug\net6.0-windows\CurveCustomization.baml
+C:\Users\sro\Documents\GitHub\Temp\Software\Temp\bin\Debug\net6.0-windows\Temp.dll.config
