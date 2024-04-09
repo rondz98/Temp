@@ -109,6 +109,7 @@ void loop() {
         lcd.print("                ");
       }
     }
+	previousMilliscommunication = currentMillis;
       
   }else{
     
