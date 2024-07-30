@@ -1,11 +1,15 @@
+int temp_increment = 10;
+int temp_decrement = 7;
+int ambient_temp = 20; 
+
 String incomingString;
 byte buffer[20];
-int temp=20;
+int temp=0;
 bool active=false;
-const int hystvalue=50;
-const int mantainvalue=3;
-int i=0;
-int im=mantainvalue;
+
+unsigned long previousMillis = 0;
+const long interval = 1000;
+
 void setup() {
   Serial.begin(9600);
   pinMode(5,OUTPUT);
@@ -16,31 +20,16 @@ void loop() {
     incomingString.toCharArray(buffer, incomingString.length() + 1);
     
     if ((buffer[0] == 82)){    //R
-      if(active==true){
-        temp++;
-      }else{
-        if(i>0){
-          temp++;
-          i--;
-        }else{
-          if(im>0)
-            im--;
-          else{
-            im=0;
-            if(temp>20)
-              temp--;
-          }
-        }
-      }
-      Serial.println(temp);
+        if(active)
+          Serial.println(temp+";1");
+        else
+          Serial.println(temp+";0");
     }else{
       if ((buffer[0] == 87) && (buffer[1] == 59)){    //W;
         if(buffer[2] == 49){
           Serial.println("S;1");
-          active=true;
-          i=hystvalue;
-          im=mantainvalue;
           digitalWrite(5, HIGH);
+          active=true;
         }
         else{
           Serial.println("S;0");
@@ -50,5 +39,23 @@ void loop() {
       }
     }
   }
+  
+  unsigned long currentMillis = millis();
+  if (currentMillis - previousMillis >= interval) 
+  {
+    previousMillis = currentMillis;
 
+    if (active) 
+	{
+      temp += temp_increment;
+    } 
+	else 
+	{
+      temp -= temp_decrement;
+      if (temp < ambient_temp) 
+	  {
+        temp = ambient_temp;
+      }
+	}
+  }
 }
