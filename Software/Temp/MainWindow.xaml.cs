@@ -1,20 +1,19 @@
 ﻿using LiveCharts;
+using LiveCharts.Configurations;
+using LiveCharts.Helpers;
+using LiveCharts.Wpf;
 using System;
 using System.Collections.Generic;
+using System.IO.Ports;
 using System.Linq;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using LiveCharts.Wpf;
-using LiveCharts.Helpers;
-using System.IO.Ports;
-using System.Threading;
-using System.Timers;
-using LiveCharts.Configurations;
 using System.Windows.Media;
+using Temp.Entities;
 using Temp.Handlers;
 using Temp.Helpers;
-using Temp.Entities;
 
 namespace Temp
 {
@@ -33,16 +32,16 @@ namespace Temp
             Select_Com.ItemsSource = SerialPort.GetPortNames();
             Select_Com.SelectedIndex = 0;
 #if EMULATE
-            myOven = new OvenSim(3.0, 1.5, 20);
+            myOven = new OvenSim(10.0, 7.5, 20);
 #endif
             curveParser = new CustomCurveParse();
-            graphHelper= new GraphHelper();
+            graphHelper = new GraphHelper();
             string previousCurve = Properties.Settings.Default.LastCurve;
             int index = -1;
             parseCurvesFiles(index);
             if (previousCurve != "")
             {
-                for( int i = 0; i < Curve_ComboBox.Items.Count; i++)
+                for (int i = 0; i < Curve_ComboBox.Items.Count; i++)
                 {
                     if (((ComboBoxItem)Curve_ComboBox.Items[i]).Tag.ToString() == previousCurve)
                     {
@@ -53,10 +52,11 @@ namespace Temp
             }
             parseCurvesFiles(index);
 
-            Refresh_IdealCurve(string.IsNullOrEmpty(previousCurve) ? "": previousCurve);
+            Refresh_IdealCurve(string.IsNullOrEmpty(previousCurve) ? "" : previousCurve);
         }
 
-        private void parseCurvesFiles(int previousSelected = -1){
+        private void parseCurvesFiles(int previousSelected = -1)
+        {
             curveParser.parseFiles();
             Curve_ComboBox.Items.Clear();
             ComboBoxItem comboBoxItem = new ComboBoxItem();
@@ -94,7 +94,7 @@ namespace Temp
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Mouse.OverrideCursor = Cursors.Wait;
-            if (String.Compare(Connect_button.Content.ToString(), "Connetti") == 0)
+            if (string.Equals(Connect_button.Content.ToString(), "Connetti"))
             {
 #if EMULATE
                 WorkingTimer.Interval = ReadingTempTimerRate;
@@ -186,15 +186,16 @@ namespace Temp
 
         private void Start_button_Click(object sender, RoutedEventArgs e)
         {
-            if (IdealCurve.Count!=0)
+            if (graphHelper.IdealCurve.Count != 0)
             {
-                if (String.Compare(Start_button.Content.ToString(), "Avvia") == 0)
+                if (string.Equals(Start_button.Content.ToString(), "Avvia"))
                 {
-#if EMULATE
-                    OngoingTimer.Interval = 250;
-#else
-                    OngoingTimer.Interval = 60000;
-#endif
+                    OngoingTimer.Interval = Properties.Settings.Default.CheckRate;
+                    /*#if EMULATE
+                                        OngoingTimer.Interval = 250;
+                    #else
+                                        OngoingTimer.Interval = 60000;
+                    #endif*/
                     OngoingTimer.Elapsed += OngoingTimer_Elapsed;
                     OngoingTimer.Start();
                     OngoingTimer_Elapsed(this, null);
@@ -205,6 +206,8 @@ namespace Temp
                     Mode_button.IsEnabled = false;
                     Pause_button.IsEnabled = true;
 
+                    startTime = DateTime.Now;
+                    previousPassedMinute = startTime.Minute;
                 }
                 else
                 {
@@ -234,23 +237,47 @@ namespace Temp
             Refresh_IdealCurve(curveName);
         }
 
-        void Refresh_IdealCurve(string curveName)
+        void Refresh_IdealCurve(string curveName, bool addNewModifiedCurve = false)
         {
-            if (!string.IsNullOrEmpty(curveName)){
+            if (!string.IsNullOrEmpty(curveName))
+            {
                 Curve usedCurve = curveParser.parseCurveFromName(curveName);
                 if (usedCurve != null)
                 {
-                    IdealCurve = graphHelper.graphGeneration(usedCurve, ReadTemperature);
+                    graphHelper.graphGeneration(usedCurve, 0);
+                    //graphHelper.graphGeneration(usedCurve, ReadTemperature);
                     Dispatcher.Invoke(() =>
                     {
-                        ch.Series = new SeriesCollection
+                        if (addNewModifiedCurve)
                         {
-                            new LineSeries
+                            ch.Series = new SeriesCollection
                             {
-                                Title = "Curva ideale",
-                                Values = IdealCurve.AsChartValues()
-                            }
-                        };
+                                new LineSeries
+                                {
+                                    Title = "Curva ideale",
+                                    Values = graphHelper.IdealCurve.AsChartValues(),
+                                    Stroke = Brushes.Blue
+                                },
+                                new LineSeries
+                                {
+                                    Title = "Vecchia curva ideale",
+                                    Values = graphHelper.oldIdealCurve.AsChartValues(),
+                                    Stroke = Brushes.Gray
+                                }
+                            };
+                        }
+                        else
+                        {
+                            ch.Series = new SeriesCollection
+                            {
+                                new LineSeries
+                                {
+                                    Title = "Curva ideale",
+                                    Values = graphHelper.IdealCurve.AsChartValues(),
+                                    Stroke = Brushes.Blue
+                                }
+                            };
+                        }
                         GraphGrid.Children.Clear();
                         GraphGrid.Children.Add(ch);
                     });
@@ -294,39 +321,41 @@ namespace Temp
         {
             bool addPoint = true;
 
-            if (OnGoingIndex < graphHelper.wantedCurve.points.Count - 1)
+            if (TempBlockIndex < graphHelper.wantedCurve.points.Count - 1)
             {
                 int ComplessiveTime = 0;
-                if (OnGoingIndex > 0)
+                if (TempBlockIndex > 0)
                 {
-                    for(int i = 0; i< OnGoingIndex-1; i++)
+                    for (int i = 0; i < TempBlockIndex; i++)
                     {
                         ComplessiveTime += graphHelper.wantedCurve.points[i].TimeValue;
                     }
                 }
 
-                if (MinutePassed == (graphHelper.wantedCurve.points[OnGoingIndex].TimeValue + ComplessiveTime))
+                if (MinutePassed == (graphHelper.wantedCurve.points[TempBlockIndex].TimeValue + ComplessiveTime))
                 {
-                    if (graphHelper.IdealCurve[MinutePassed] < graphHelper.wantedCurve.points[OnGoingIndex].TempValue)
+                    if (graphHelper.IdealCurve[MinutePassed] < graphHelper.wantedCurve.points[TempBlockIndex].TempValue)
                     {
-                        if (ReadTemperature >= graphHelper.wantedCurve.points[OnGoingIndex].TempValue)
+                        if (ReadTemperature >= graphHelper.wantedCurve.points[TempBlockIndex].TempValue)
                         {
-                            OnGoingIndex++;
+                            TempBlockIndex++;
+                            addPoint = false;
                         }
                     }
                     else
                     {
-                        if (graphHelper.IdealCurve[MinutePassed] > graphHelper.wantedCurve.points[OnGoingIndex].TempValue)
+                        if (graphHelper.IdealCurve[MinutePassed] > graphHelper.wantedCurve.points[TempBlockIndex].TempValue)
                         {
-                            if (ReadTemperature <= graphHelper.wantedCurve.points[OnGoingIndex].TempValue)
+                            if (ReadTemperature <= graphHelper.wantedCurve.points[TempBlockIndex].TempValue)
                             {
-                                OnGoingIndex++;
+                                TempBlockIndex++;
+                                addPoint = false;
                             }
                         }
                         else
                         {
                             addPoint = false;
-                            OnGoingIndex++;
+                            TempBlockIndex++;
                         }
                     }
 
@@ -335,74 +364,9 @@ namespace Temp
                         AddPointOnCurve();
                     }
                 }
-                /*if (points[OnGoingIndex].MinTempValue < points[OnGoingIndex].MaxTempValue)
-                {
-                    if (ReadTemperature >= points[OnGoingIndex].MaxTempValue)
-                    {
-                        OnGoingIndex++;
-                    }
-                }
-                else
-                {
-                    if (points[OnGoingIndex].MinTempValue > points[OnGoingIndex].MaxTempValue)
-                    {
-                        if (ReadTemperature <= points[OnGoingIndex].MaxTempValue)
-                        {
-                            OnGoingIndex++;
-                        }
-                    }
-                    else
-                    {
-                        addingPointNotNeeded = true;
-                        if (MinutePassed > points[OnGoingIndex].MaxTimeValue)
-                            OnGoingIndex++;
-                    }
-                }
-
-                if (MinutePassed > points[OnGoingIndex].MaxTimeValue)
-                {
-
-                    if (!addingPointNotNeeded)
-                    {
-                        AddPointOnCurve(points[OnGoingIndex]);
-
-                        points[OnGoingIndex].MaxTimeValue++;
-
-                        for (int i = OnGoingIndex + 1; i < points.Count; i++)
-                        {
-                            points[i].MinTimeValue++;
-                            points[i].MaxTimeValue++;
-                        }
-                    }
-                }*/
             }
-            Application.Current.Dispatcher.Invoke(new Action(() =>
-            {
-                int hour = Convert.ToInt32(Math.Floor((double)MinutePassed / 60));
-                int minute = MinutePassed - (hour * 60);
-                TimeCount_Value_Label.Content = hour.ToString("00") + ":" + minute.ToString("00") + " h";
-                int lefthour = Convert.ToInt32(Math.Floor(((double)IdealCurve.Count() - MinutePassed)/60));
-                int leftminute = Convert.ToInt32((double)IdealCurve.Count() - MinutePassed)-(lefthour*60);
-                if(lefthour >= 0 && leftminute >= 0) { 
-                    TimeExpected_Value_Label.Content = lefthour.ToString("00") + ":" + leftminute.ToString("00") + " h";
-                }
-                else
-                {
-                    TimeExpected_Value_Label.Content = "--:-- h";
-                }
-            }));
 
-            if (e != null)
-                MinutePassed++;
-
-            if (IdealCurve.Count() > MinutePassed)
-            {
-                RegulateTemp(true);
-            }
-            else
-            {
-                RegulateTemp(false);
-            }
+            RegulateTemp();
 
             var mapper = new CartesianMapper<double>()
                 .X((value, index) => MinutePassed)
@@ -418,7 +382,6 @@ namespace Temp
                 {
                     Title = "Valore attuale",
                     Values = new ChartValues<double> { ReadTemperature },
-                    Fill = Brushes.Red,
                     Stroke = Brushes.Red,
                     PointGeometrySize = 10,
                     PointForeground = Brushes.Red
@@ -429,9 +392,13 @@ namespace Temp
                 ReadingPoint.Values = ReadingChart;
 
                 if (LastPoint != null)
+                {
                     ch.Series.Remove(LastPoint);
+                }
                 if (LastPointReading != null)
+                {
                     ch.Series.Remove(LastPointReading);
+                }
                 ch.Series.Add(Point);
                 ch.Series.Add(ReadingPoint);
                 LastPoint = Point;
@@ -439,24 +406,54 @@ namespace Temp
 
                 GraphGrid.Children.Clear();
                 GraphGrid.Children.Add(ch);
+
+                int hour = Convert.ToInt32(Math.Floor((double)MinutePassed / 60));
+                int minute = MinutePassed - (hour * 60);
+                TimeCount_Value_Label.Content = hour.ToString("00") + ":" + minute.ToString("00") + " h";
+                int lefthour = Convert.ToInt32(Math.Floor(((double)graphHelper.IdealCurve.Count() - MinutePassed) / 60));
+                int leftminute = Convert.ToInt32((double)graphHelper.IdealCurve.Count() - MinutePassed) - (lefthour * 60);
+                if (lefthour >= 0 && leftminute >= 0)
+                {
+                    TimeExpected_Value_Label.Content = lefthour.ToString("00") + ":" + leftminute.ToString("00") + " h";
+                }
+                else
+                {
+                    TimeExpected_Value_Label.Content = "--:-- h";
+                }
             }));
-            Thread.Sleep(200);
+
+#if EMULATE
+            MinutePassed++;
+#else
+            if (startTime.Minute != previousPassedMinute)
+            {
+                MinutePassed++;
+                previousPassedMinute = startTime.Minute;
+            }
+#endif
         }
 
         private void AddPointOnCurve()
         {
-            IdealCurve.Insert(MinutePassed + 1, graphHelper.wantedCurve.points[OnGoingIndex + 1].TempValue);
+            if (graphHelper.oldIdealCurve.Count == 0)
+            {
+                graphHelper.oldIdealCurve = new List<double>(graphHelper.IdealCurve);
+            }
+
+            graphHelper.IdealCurve.Insert(MinutePassed + 1, graphHelper.wantedCurve.points[TempBlockIndex].TempValue);
+            graphHelper.wantedCurve.points[TempBlockIndex].TimeValue++;
+
             Dispatcher.Invoke(() =>
             {
-                Refresh_IdealCurve((Curve_ComboBox.SelectedItem as ComboBoxItem).Tag.ToString());
+                Refresh_IdealCurve((Curve_ComboBox.SelectedItem as ComboBoxItem).Tag.ToString(), true);
             });
         }
 
-        private void RegulateTemp(bool hasreference)
+        private void RegulateTemp()
         {
-            if (hasreference)
+            if (graphHelper.IdealCurve.Count() > MinutePassed)
             {
-                if (ReadTemperature < IdealCurve[MinutePassed])
+                if (ReadTemperature < graphHelper.IdealCurve[MinutePassed])
                 {
 #if !EMULATE
                     if (!handlerArduino.writeOutput(1))
@@ -504,7 +501,7 @@ namespace Temp
 
         private void Mode_button_Click(object sender, RoutedEventArgs e)
         {
-            if (String.Compare(Mode_button.Content.ToString(), "Modalità manuale") == 0 )
+            if (string.Equals(Mode_button.Content.ToString(), "Modalità manuale"))
             {
                 Start_button.Visibility = Visibility.Hidden;
 
@@ -519,7 +516,7 @@ namespace Temp
 
                 OnOff_Button.Visibility = Visibility.Hidden;
                 Custom_Button.Visibility = Visibility.Visible;
-                if(String.Compare(Connect_button.Content.ToString(), "Disconnetti") == 0)
+                if (string.Equals(Connect_button.Content.ToString(), "Disconnetti"))
                     OnOff_Button_Click(null, e);
                 Mode_button.Content = "Modalità manuale";
 
@@ -530,7 +527,7 @@ namespace Temp
         {
             if (sender != null)
             {
-                if (String.Compare(OnOff_Button.Content.ToString(), "Accendi") == 0)
+                if (string.Equals(OnOff_Button.Content.ToString(), "Accendi"))
                 {
                     if (handlerArduino.writeOutput(1))
                     {
@@ -549,7 +546,8 @@ namespace Temp
                     }
                 }
             }
-            else {
+            else
+            {
                 if (handlerArduino.writeOutput(0))
                 {
                     OnOff_Button.Content = "Accendi";
@@ -558,7 +556,7 @@ namespace Temp
         }
         private void Pause_button_Click(object sender, RoutedEventArgs e)
         {
-            if (String.Compare(Pause_button.Content.ToString(), "Pausa") == 0)
+            if (string.Equals(Pause_button.Content.ToString(), "Pausa"))
             {
                 OngoingTimer.Stop();
                 Pause_button.Content = "In Pausa";
@@ -594,11 +592,6 @@ namespace Temp
         /// parser for custom curves files
         /// </summary>
         CustomCurveParse curveParser;
-
-        /// <summary>
-        /// Ideal Curve
-        /// </summary>
-        List<double> IdealCurve = new List<double>();
 
         /// <summary>
         /// read temperature value
@@ -662,14 +655,30 @@ namespace Temp
         /// <summary>
         /// index of ongoing points
         /// </summary>
-        int OnGoingIndex = 0;
+        int TempBlockIndex = 0;
 
         /// <summary>
         /// Helper for graph creation
         /// </summary>
         GraphHelper graphHelper;
 
+        /// <summary>
+        /// Time of start
+        /// </summary>
+        DateTime startTime;
+
+        /// <summary>
+        /// Last minute that has passed
+        /// </summary>
+        int previousPassedMinute;
+
+
+        int tempTime;
+
 #if EMULATE
+        /// <summary>
+        /// Simulator for the oven
+        /// </summary>
         OvenSim myOven;
 #endif
 

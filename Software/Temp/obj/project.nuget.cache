@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "JvMDwVAz0si/cVrh0+t7D5ZhKK/oOziLw18RblO74JObHC9zxzY6+8546NhzMp3SrX6Jc+/fKea5nIdcZ6c+RQ==",
+  "dgSpecHash": "dP9h/ggZikQ=",
   "success": true,
-  "projectFilePath": "C:\\Users\\sro\\Documents\\GitHub\\Temp\\Software\\Temp\\Temp.csproj",
+  "projectFilePath": "C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\Temp\\Temp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sro\\.nuget\\packages\\livecharts\\0.9.7\\livecharts.0.9.7.nupkg.sha512",
     "C:\\Users\\sro\\.nuget\\packages\\livecharts.wpf\\0.9.7\\livecharts.wpf.0.9.7.nupkg.sha512",

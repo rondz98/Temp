@@ -10,9 +10,10 @@ namespace Temp.Helpers
         public GraphHelper()
         {
             IdealCurve = new List<double>();
+            oldIdealCurve = new List<double>();
         }
 
-        public List<double> graphGeneration(Curve curve, double startingTemp)
+        public void graphGeneration(Curve curve, double startingTemp)
         {
             wantedCurve = curve;
 
@@ -42,11 +43,11 @@ namespace Temp.Helpers
                 }
                 totalTime += curve.points[i].TimeValue;
             }
-
-            return IdealCurve;
         }
 
         public List<double> IdealCurve;
+
+        public List<double> oldIdealCurve;
 
         public Curve wantedCurve;
 
