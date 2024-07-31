@@ -37,13 +37,25 @@ namespace Temp.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        [global::System.Configuration.DefaultSettingValueAttribute("5000")]
         public int CheckRate {
             get {
                 return ((int)(this["CheckRate"]));
             }
             set {
                 this["CheckRate"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastComPort {
+            get {
+                return ((string)(this["LastComPort"]));
+            }
+            set {
+                this["LastComPort"] = value;
             }
         }
     }

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
+using System.Threading;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,7 +31,20 @@ namespace Temp
             ch.DisableAnimations = true;
 
             Select_Com.ItemsSource = SerialPort.GetPortNames();
-            Select_Com.SelectedIndex = 0;
+            for (int i = 0; i < Select_Com.Items.Count; i++)
+            {
+                if (Select_Com.Items[i].ToString() == Properties.Settings.Default.LastComPort)
+                {
+                    Select_Com.SelectedIndex = i;
+                    break;
+                }
+            }
+
+            if (Select_Com.SelectedIndex == -1)
+            {
+                Select_Com.SelectedIndex = 0;
+            }
+
 #if EMULATE
             myOven = new OvenSim(10.0, 7.5, 20);
 #endif
@@ -287,6 +301,7 @@ namespace Temp
 
         private void ReadingTempTimer_Elapsed(object? sender, ElapsedEventArgs e)
         {
+            bool Status;
 #if EMULATE
             ReadTemperature = (int)Math.Floor(myOven.GetTemp());
 #else
@@ -340,6 +355,7 @@ namespace Temp
                         {
                             TempBlockIndex++;
                             addPoint = false;
+                            isTempReached = false;
                         }
                     }
                     else
@@ -350,18 +366,47 @@ namespace Temp
                             {
                                 TempBlockIndex++;
                                 addPoint = false;
+                                isTempReached = false;
                             }
                         }
                         else
                         {
                             addPoint = false;
                             TempBlockIndex++;
+                            isTempReached = false;
                         }
                     }
 
-                    if (addPoint)
+                    if (addPoint && !isTempReached)
                     {
                         AddPointOnCurve();
+                    }
+                }
+                else
+                {
+                    if (graphHelper.IdealCurve.Count < MinutePassed)
+                    {
+                        if (graphHelper.IdealCurve[MinutePassed] < graphHelper.wantedCurve.points[TempBlockIndex].TempValue)
+                        {
+                            if (ReadTemperature >= graphHelper.wantedCurve.points[TempBlockIndex].TempValue)
+                            {
+                                isTempReached = true;
+                            }
+                        }
+                        else
+                        {
+                            if (graphHelper.IdealCurve[MinutePassed] > graphHelper.wantedCurve.points[TempBlockIndex].TempValue)
+                            {
+                                if (ReadTemperature <= graphHelper.wantedCurve.points[TempBlockIndex].TempValue)
+                                {
+                                    isTempReached = true;
+                                }
+                            }
+                            else
+                            {
+                                isTempReached = true;
+                            }
+                        }
                     }
                 }
             }
@@ -425,10 +470,10 @@ namespace Temp
 #if EMULATE
             MinutePassed++;
 #else
-            if (startTime.Minute != previousPassedMinute)
+            if (DateTime.Now.Minute != previousPassedMinute)
             {
                 MinutePassed++;
-                previousPassedMinute = startTime.Minute;
+                previousPassedMinute = DateTime.Now.Minute;
             }
 #endif
         }
@@ -675,6 +720,7 @@ namespace Temp
 
         int tempTime;
 
+        bool isTempReached;
 #if EMULATE
         /// <summary>
         /// Simulator for the oven
