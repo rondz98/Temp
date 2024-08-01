@@ -361,3 +361,5 @@ C:\Utils\Glass_Oven\Software\Temp\obj\Debug\net6.0-windows\refint\Temp.dll
 C:\Utils\Glass_Oven\Software\Temp\obj\Debug\net6.0-windows\Temp.pdb
 C:\Utils\Glass_Oven\Software\Temp\obj\Debug\net6.0-windows\Temp.genruntimeconfig.cache
 C:\Utils\Glass_Oven\Software\Temp\obj\Debug\net6.0-windows\ref\Temp.dll
+C:\Users\sro\Documents\PlatformIO\Projects\AutoFeeder\Temp\Software\Temp\obj\Debug\net6.0-windows\Settings.g.cs
+C:\Users\sro\Documents\PlatformIO\Projects\AutoFeeder\Temp\Software\Temp\obj\Debug\net6.0-windows\Settings.baml

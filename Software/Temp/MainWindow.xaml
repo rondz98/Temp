@@ -65,9 +65,10 @@
             </Grid.ColumnDefinitions>
 
             <Button x:Name="Connect_button" Grid.Column="0" Content="Connetti" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="100" Click="Button_Click"/>
-            <Button x:Name="Start_button" Grid.Column="2" Content="Avvia" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100" Click="Start_button_Click" IsEnabled="False"/>
             <Button x:Name="Pause_button" Grid.Column="3" Content="Pausa" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100" Click="Pause_button_Click" Visibility="Hidden" IsEnabled="False"/>
             <Button x:Name="Mode_button" Grid.Column="1" Content="Modalità manuale" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100" Click="Mode_button_Click" IsEnabled="True"/>
+            <Button x:Name="Start_button" Grid.Column="2" Content="Avvia" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center" Width="100" Click="Start_button_Click" IsEnabled="False"/>
+            <Button x:Name="Settings_button" Grid.Column="7" Content="Impostazioni" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center" Width="100" Click="Settings_button_Click"/>
         </Grid>
 
         <Grid Grid.Row="1" Grid.Column="0" Grid.RowSpan="2">

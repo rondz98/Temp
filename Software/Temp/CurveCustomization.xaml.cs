@@ -27,7 +27,7 @@ namespace Temp
                     index++;
                 }
             }
-            HasChanged = hasChanged = false;
+            hasChanged = false;
             Save_Button.Content = "Salvato";
             Save_Button.IsEnabled = false;
             if (string.IsNullOrEmpty(CurveName) || CurveName == "None")
@@ -128,7 +128,7 @@ namespace Temp
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            HasChanged = hasChanged = true;
+            hasChanged = true;
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -150,7 +150,7 @@ namespace Temp
                 i++;
             }
 
-            HasChanged = hasChanged = true;
+            hasChanged = true;
         }
 
         private void Add_Button_Click(object sender, RoutedEventArgs e)
@@ -160,7 +160,7 @@ namespace Temp
             point.TimeValue = 0;
             point.ID = steps_grid.Items.Count;
             steps_grid.Items.Add(add_customRow(point.ID, point));
-            HasChanged = hasChanged = true;
+            hasChanged = true;
         }
 
         private void Save_Button_Click(object sender, RoutedEventArgs e)
@@ -191,7 +191,6 @@ namespace Temp
 
                 Save_Button.Content = "Salvato";
                 Save_Button.IsEnabled = false;
-                HasChanged = false;
                 hasChanged = false;
             }
         }
@@ -217,12 +216,12 @@ namespace Temp
             } 
             set
             {
-                if(hasChanged == true)
+                if(value)
                 {
                     Save_Button.Content = "Salva";
                     Save_Button.IsEnabled = true;
-                    HasChanged = value;
                 }
+                HasChanged = value;
             }
         }
     }

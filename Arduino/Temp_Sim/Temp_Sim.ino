@@ -11,7 +11,7 @@ unsigned long previousMillis = 0;
 const long interval = 1000;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   pinMode(LED_BUILTIN,OUTPUT);
 }  
 void loop() {

@@ -76,7 +76,7 @@ namespace Temp
             ComboBoxItem comboBoxItem = new ComboBoxItem();
             comboBoxItem.Tag = "None";
             comboBoxItem.Name = "None_" + 0;
-            comboBoxItem.Content = "Curva personalizzata";
+            comboBoxItem.Content = "Nuova curva personalizzata";
             Curve_ComboBox.Items.Add(comboBoxItem);
 
             Curve_ComboBox.SelectedIndex = 0;
@@ -205,11 +205,6 @@ namespace Temp
                 if (string.Equals(Start_button.Content.ToString(), "Avvia"))
                 {
                     OngoingTimer.Interval = Properties.Settings.Default.CheckRate;
-                    /*#if EMULATE
-                                        OngoingTimer.Interval = 250;
-                    #else
-                                        OngoingTimer.Interval = 60000;
-                    #endif*/
                     OngoingTimer.Elapsed += OngoingTimer_Elapsed;
                     OngoingTimer.Start();
                     OngoingTimer_Elapsed(this, null);
@@ -631,6 +626,19 @@ namespace Temp
                 Properties.Settings.Default.LastCurve = (Curve_ComboBox.SelectedItem as ComboBoxItem).Tag.ToString();
             }
             Properties.Settings.Default.Save();
+        }
+
+        private void Settings_button_Click(object sender, RoutedEventArgs e)
+        {
+            Settings settings = new Settings();
+
+            settings.ShowDialog();
+
+            string curveName = (Curve_ComboBox.SelectedItem as ComboBoxItem).Tag.ToString();
+            int selectedIndex = Curve_ComboBox.SelectedIndex;
+
+            parseCurvesFiles(selectedIndex);
+            Refresh_IdealCurve(curveName);
         }
 
         /// <summary>

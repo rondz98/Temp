@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Utils\\Glass_Oven\\Software\\Temp\\Temp.csproj": {}
+    "C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\Temp\\Temp.csproj": {}
   },
   "projects": {
-    "C:\\Utils\\Glass_Oven\\Software\\Temp\\Temp.csproj": {
+    "C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\Temp\\Temp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Utils\\Glass_Oven\\Software\\Temp\\Temp.csproj",
+        "projectUniqueName": "C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\Temp\\Temp.csproj",
         "projectName": "Temp",
-        "projectPath": "C:\\Utils\\Glass_Oven\\Software\\Temp\\Temp.csproj",
-        "packagesPath": "C:\\Users\\rondi\\.nuget\\packages\\",
-        "outputPath": "C:\\Utils\\Glass_Oven\\Software\\Temp\\obj\\",
+        "projectPath": "C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\Temp\\Temp.csproj",
+        "packagesPath": "C:\\Users\\sro\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\Temp\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\rondi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\sro\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,7 +26,9 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://www.nuget.org/packages/GSF.PQDIF/": {}
         },
         "frameworks": {
           "net6.0-windows7.0": {
@@ -69,11 +75,11 @@
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             },
-            "Microsoft.WindowsDesktop.App.WPF": {
+            "Microsoft.WindowsDesktop.App": {
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
         }
       }
     }
