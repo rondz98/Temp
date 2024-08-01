@@ -1,21 +1,25 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\",
+  "WorkspaceRootPath": "C:\\Utils\\Glass_Oven\\Software\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|c:\\users\\sro\\documents\\platformio\\projects\\autofeeder\\temp\\software\\temp\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|c:\\utils\\glass_oven\\software\\temp\\handlers\\handlerarduino.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|solutionrelative:temp\\handlers\\handlerarduino.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|c:\\utils\\glass_oven\\software\\temp\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|solutionrelative:temp\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|c:\\users\\sro\\documents\\platformio\\projects\\autofeeder\\temp\\software\\temp\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|solutionrelative:temp\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|c:\\users\\sro\\documents\\platformio\\projects\\autofeeder\\temp\\software\\temp\\properties\\settings.settings||{6D2695F9-5365-4A78-89ED-F205C045BFE6}",
+      "AbsoluteMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|C:\\Utils\\Glass_Oven\\Software\\temp\\properties\\settings.settings||{6D2695F9-5365-4A78-89ED-F205C045BFE6}",
       "RelativeMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|solutionrelative:temp\\properties\\settings.settings||{6D2695F9-5365-4A78-89ED-F205C045BFE6}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|c:\\users\\sro\\documents\\platformio\\projects\\autofeeder\\temp\\software\\temp\\temp.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "AbsoluteMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|c:\\utils\\glass_oven\\software\\temp\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|solutionrelative:temp\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|c:\\utils\\glass_oven\\software\\temp\\temp.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
       "RelativeMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|solutionrelative:temp\\temp.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     }
   ],
@@ -26,27 +30,39 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "HandlerArduino.cs",
+              "DocumentMoniker": "C:\\Utils\\Glass_Oven\\Software\\Temp\\Handlers\\HandlerArduino.cs",
+              "RelativeDocumentMoniker": "Temp\\Handlers\\HandlerArduino.cs",
+              "ToolTip": "C:\\Utils\\Glass_Oven\\Software\\Temp\\Handlers\\HandlerArduino.cs",
+              "RelativeToolTip": "Temp\\Handlers\\HandlerArduino.cs",
+              "ViewState": "AQIAACoAAAAAAAAAAAAawDkAAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-31T15:48:50.053Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "MainWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\Temp\\MainWindow.xaml",
+              "DocumentMoniker": "C:\\Utils\\Glass_Oven\\Software\\Temp\\MainWindow.xaml",
               "RelativeDocumentMoniker": "Temp\\MainWindow.xaml",
-              "ToolTip": "C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\Temp\\MainWindow.xaml",
+              "ToolTip": "C:\\Utils\\Glass_Oven\\Software\\Temp\\MainWindow.xaml",
               "RelativeToolTip": "Temp\\MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-07-31T11:36:17.884Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-31T11:36:17.884Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
               "Title": "Settings.settings",
-              "DocumentMoniker": "C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\Temp\\Properties\\Settings.settings",
+              "DocumentMoniker": "C:\\Utils\\Glass_Oven\\Software\\Temp\\Properties\\Settings.settings",
               "RelativeDocumentMoniker": "Temp\\Properties\\Settings.settings",
-              "ToolTip": "C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\Temp\\Properties\\Settings.settings",
+              "ToolTip": "C:\\Utils\\Glass_Oven\\Software\\Temp\\Properties\\Settings.settings",
               "RelativeToolTip": "Temp\\Properties\\Settings.settings",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002767|",
               "WhenOpened": "2024-07-31T06:49:51.686Z",
@@ -54,25 +70,24 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Temp",
-              "DocumentMoniker": "C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\Temp\\Temp.csproj",
+              "DocumentMoniker": "C:\\Utils\\Glass_Oven\\Software\\Temp\\Temp.csproj",
               "RelativeDocumentMoniker": "Temp\\Temp.csproj",
-              "ToolTip": "C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\Temp\\Temp.csproj",
+              "ToolTip": "C:\\Utils\\Glass_Oven\\Software\\Temp\\Temp.csproj",
               "RelativeToolTip": "Temp\\Temp.csproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-07-31T06:35:11.489Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-31T06:35:11.489Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\Temp\\MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Utils\\Glass_Oven\\Software\\Temp\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "Temp\\MainWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\Temp\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Utils\\Glass_Oven\\Software\\Temp\\MainWindow.xaml.cs",
               "RelativeToolTip": "Temp\\MainWindow.xaml.cs",
-              "ViewState": "AQIAAEYAAAAAAAAAAAAgwCcAAAARAAAA",
+              "ViewState": "AQIAACYAAAAAAAAAAAAYwIEAAAA3AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-07-31T06:33:53.74Z",
               "EditorCaption": ""

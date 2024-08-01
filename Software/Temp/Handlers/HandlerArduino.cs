@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO.Ports;
 using System.Threading;
+using Temp.Properties;
 
 namespace Temp.Handlers
 {
@@ -10,7 +11,7 @@ namespace Temp.Handlers
         {
             try
             {
-                port = new SerialPort(portname, 9600, Parity.None, 8, StopBits.One);
+                port = new SerialPort(portname, Settings.Default.BaudRate, Parity.None, 8, StopBits.One);
                 port.ReadTimeout = 3000;
                 port.WriteTimeout = 3000;
                 port.Open();
@@ -51,7 +52,7 @@ namespace Temp.Handlers
                         try
                         {
                             ClearCom();
-                            port.Write("R");
+                            port.Write("R\n");
                             Thread.Sleep(100);
                             readTemp_and_status = port.ReadLine();
                             retry = -1;
