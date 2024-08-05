@@ -4,6 +4,7 @@ using LiveCharts.Helpers;
 using LiveCharts.Wpf;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Threading;
@@ -132,11 +133,19 @@ namespace Temp
                             WorkingTimer.Elapsed += ReadingTempTimer_Elapsed;
                             WorkingTimer.Start();
 
+                            if (Properties.Settings.Default.SaveLog)
+                            {
+                                logFileName = Properties.Settings.Default.LogPath + "\\" + DateTime.Now.ToString("yyMMdd_hhmmss") + "_Log.txt";
+                                LogTimer.Interval = Properties.Settings.Default.LogRate;
+                                LogTimer.Elapsed += LogTimer_Elapsed;
+                                LogTimer.Start();
+                            }
+
                             Connect_button.Content = "Disconnetti";
                             Select_Com.IsEnabled = false;
                             Start_button.IsEnabled = true;
                             OnOff_Button.IsEnabled = true;
-                            Curve_ComboBox.IsEnabled = false;
+
                             Pause_button.Visibility = Visibility.Visible;
                         }
                         else
@@ -176,15 +185,23 @@ namespace Temp
                     Start_button.IsEnabled = false;
                     Connect_button.Content = "Connetti";
                     if (WorkingTimer.Enabled)
+                    {
                         WorkingTimer.Stop();
+                    }
                     if (OngoingTimer.Enabled)
+                    {
                         OngoingTimer.Stop();
+                    }
+                    if (LogTimer.Enabled)
+                    {
+                        LogTimer.Stop();
+                    }
+
                     MinutePassed = 0;
 
                     Custom_Button.IsEnabled = true;
                     Select_Com.IsEnabled = true;
                     OnOff_Button.IsEnabled = false;
-                    Curve_ComboBox.IsEnabled = true;
                     Pause_button.Visibility = Visibility.Hidden;
                 }
                 else
@@ -197,6 +214,13 @@ namespace Temp
             Mouse.OverrideCursor = null;
         }
 
+        private void LogTimer_Elapsed(object? sender, ElapsedEventArgs e)
+        {
+            using (StreamWriter sw = new StreamWriter(logFileName, true))
+            {
+                sw.WriteLine(DateTime.Now + "\t" + ReadTemperature +"\t" + switchStatus);
+            }
+        }
 
         private void Start_button_Click(object sender, RoutedEventArgs e)
         {
@@ -214,6 +238,9 @@ namespace Temp
                     Custom_Button.IsEnabled = false;
                     Mode_button.IsEnabled = false;
                     Pause_button.IsEnabled = true;
+                    Curve_ComboBox.IsEnabled = false;
+                    Settings_button.IsEnabled = false;
+                    Custom_Button.IsEnabled = false;
 
                     startTime = DateTime.Now;
                     previousPassedMinute = startTime.Minute;
@@ -227,6 +254,9 @@ namespace Temp
                     Custom_Button.IsEnabled = true;
                     Mode_button.IsEnabled = true;
                     Pause_button.IsEnabled = false;
+                    Curve_ComboBox.IsEnabled = true;
+                    Settings_button.IsEnabled = true;
+                    Custom_Button.IsEnabled = true;
                 }
             }
             else
@@ -254,7 +284,6 @@ namespace Temp
                 if (usedCurve != null)
                 {
                     graphHelper.graphGeneration(usedCurve, 0);
-                    //graphHelper.graphGeneration(usedCurve, ReadTemperature);
                     Dispatcher.Invoke(() =>
                     {
                         if (addNewModifiedCurve)
@@ -296,22 +325,21 @@ namespace Temp
 
         private void ReadingTempTimer_Elapsed(object? sender, ElapsedEventArgs e)
         {
-            bool Status;
 #if EMULATE
             ReadTemperature = (int)Math.Floor(myOven.GetTemp());
 #else
             string rawString = handlerArduino.Read_Temp_and_Status();
             ReadTemperature = Convert.ToInt32(rawString.Split(';')[0]);
             if (rawString.Split(';')[1].Contains("0"))
-                Status = false;
+                switchStatus = false;
             else
-                Status = true;
+                switchStatus = true;
 #endif
             Dispatcher.Invoke(() =>
             {
                 TempActual_TextBox.Content = ReadTemperature + " °C";
 #if !EMULATE
-                if (Status)
+                if (switchStatus)
                 {
                     switchStatus_Label.Visibility = Visibility.Visible;
                     switchStatus_Label.Content = "Acceso";
@@ -672,6 +700,11 @@ namespace Temp
         System.Timers.Timer OngoingTimer = new System.Timers.Timer();
 
         /// <summary>
+        /// Timer of Ongoing curve
+        /// </summary>
+        System.Timers.Timer LogTimer = new System.Timers.Timer();
+
+        /// <summary>
         /// Speed at which temperature read is done
         /// </summary>
 #if EMULATE
@@ -728,7 +761,12 @@ namespace Temp
 
         int tempTime;
 
+
+        bool switchStatus;
+
         bool isTempReached;
+
+        string logFileName;
 #if EMULATE
         /// <summary>
         /// Simulator for the oven

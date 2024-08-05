@@ -75,6 +75,10 @@ namespace Temp
             Height = 350;
             mainGrid.RowDefinitions[4].Height = new GridLength(40);
             mainGrid.RowDefinitions[5].Height = new GridLength(40);
+            if (!isInitialized)
+            {
+                hasChanged = true;
+            }
         }
 
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
@@ -82,6 +86,10 @@ namespace Temp
             Height = 250;
             mainGrid.RowDefinitions[4].Height = new GridLength(0);
             mainGrid.RowDefinitions[5].Height = new GridLength(0);
+            if (!isInitialized)
+            {
+                hasChanged = true;
+            }
         }
 
         private void saveButton_Click(object sender, RoutedEventArgs e)

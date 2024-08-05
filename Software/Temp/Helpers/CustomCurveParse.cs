@@ -91,6 +91,22 @@ namespace Temp.Helpers
             return result;
         }
 
+        public bool DeleteFile(string Name)
+        {
+            bool result = false;
+
+            try
+            {
+                File.Delete(appFolderPath + "\\" + Name + ".ccw");
+                result = true;
+            }
+            catch
+            {
+            }
+
+            return result;
+        }
+
         public bool SaveCurve(Curve Savecurve)
         {
             bool result = false;

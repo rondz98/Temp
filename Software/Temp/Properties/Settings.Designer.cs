@@ -97,7 +97,8 @@ namespace Temp.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("log.txt")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\Temp\\bin\\Debu" +
+            "g\\net6.0-windows")]
         public string LogPath {
             get {
                 return ((string)(this["LogPath"]));

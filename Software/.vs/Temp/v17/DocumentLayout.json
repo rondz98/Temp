@@ -7,16 +7,28 @@
       "RelativeMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|solutionrelative:temp\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\temp\\properties\\settings.settings||{6D2695F9-5365-4A78-89ED-F205C045BFE6}",
+      "RelativeMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|solutionrelative:temp\\properties\\settings.settings||{6D2695F9-5365-4A78-89ED-F205C045BFE6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|c:\\users\\sro\\documents\\platformio\\projects\\autofeeder\\temp\\software\\temp\\helpers\\graphhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|solutionrelative:temp\\helpers\\graphhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|c:\\users\\sro\\documents\\platformio\\projects\\autofeeder\\temp\\software\\temp\\helpers\\customcurveparse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|solutionrelative:temp\\helpers\\customcurveparse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|c:\\users\\sro\\documents\\platformio\\projects\\autofeeder\\temp\\software\\temp\\curvecustomization.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|solutionrelative:temp\\curvecustomization.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|c:\\users\\sro\\documents\\platformio\\projects\\autofeeder\\temp\\software\\temp\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|solutionrelative:temp\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|c:\\users\\sro\\documents\\platformio\\projects\\autofeeder\\temp\\software\\temp\\settings.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|solutionrelative:temp\\settings.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|c:\\users\\sro\\documents\\platformio\\projects\\autofeeder\\temp\\software\\temp\\helpers\\customcurveparse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C74A578A-CE70-40C3-85E3-2BE0C2C0971A}|Temp\\Temp.csproj|solutionrelative:temp\\helpers\\customcurveparse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,19 +38,53 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "GraphHelper.cs",
+              "DocumentMoniker": "C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\Temp\\Helpers\\GraphHelper.cs",
+              "RelativeDocumentMoniker": "Temp\\Helpers\\GraphHelper.cs",
+              "ToolTip": "C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\Temp\\Helpers\\GraphHelper.cs",
+              "RelativeToolTip": "Temp\\Helpers\\GraphHelper.cs",
+              "ViewState": "AQIAAAgAAAAAAAAAAAAQwBAAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-02T08:45:44.084Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CurveCustomization.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\Temp\\CurveCustomization.xaml.cs",
+              "RelativeDocumentMoniker": "Temp\\CurveCustomization.xaml.cs",
+              "ToolTip": "C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\Temp\\CurveCustomization.xaml.cs",
+              "RelativeToolTip": "Temp\\CurveCustomization.xaml.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAA2AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-02T07:51:34.529Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "Settings.settings",
+              "DocumentMoniker": "C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\Temp\\Properties\\Settings.settings",
+              "RelativeDocumentMoniker": "Temp\\Properties\\Settings.settings",
+              "ToolTip": "C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\Temp\\Properties\\Settings.settings",
+              "RelativeToolTip": "Temp\\Properties\\Settings.settings",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002767|",
+              "WhenOpened": "2024-08-02T07:49:05.302Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\Temp\\MainWindow.xaml",
               "RelativeDocumentMoniker": "Temp\\MainWindow.xaml",
               "ToolTip": "C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\Temp\\MainWindow.xaml",
               "RelativeToolTip": "Temp\\MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-08-01T14:23:27.008Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-01T14:23:27.008Z"
             },
             {
               "$type": "Document",
@@ -48,7 +94,7 @@
               "RelativeDocumentMoniker": "Temp\\MainWindow.xaml.cs",
               "ToolTip": "C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\Temp\\MainWindow.xaml.cs",
               "RelativeToolTip": "Temp\\MainWindow.xaml.cs",
-              "ViewState": "AQIAAHABAAAAAAAAAAD4v4IBAAAdAAAA",
+              "ViewState": "AQIAABIAAAAAAAAAAAAAAC4AAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-01T14:22:25.2Z",
               "EditorCaption": ""
@@ -61,23 +107,22 @@
               "RelativeDocumentMoniker": "Temp\\Helpers\\CustomCurveParse.cs",
               "ToolTip": "C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\Temp\\Helpers\\CustomCurveParse.cs",
               "RelativeToolTip": "Temp\\Helpers\\CustomCurveParse.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAMAAAA",
+              "ViewState": "AQIAACAAAAAAAAAAAAAawDoAAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-01T14:17:35.796Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "Settings.xaml.cs",
               "DocumentMoniker": "C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\Temp\\Settings.xaml.cs",
               "RelativeDocumentMoniker": "Temp\\Settings.xaml.cs",
               "ToolTip": "C:\\Users\\sro\\Documents\\PlatformIO\\Projects\\AutoFeeder\\Temp\\Software\\Temp\\Settings.xaml.cs",
               "RelativeToolTip": "Temp\\Settings.xaml.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAHgAAAAUAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAATAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-01T13:10:02.56Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-01T13:10:02.56Z"
             }
           ]
         }

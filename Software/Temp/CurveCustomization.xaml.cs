@@ -173,6 +173,8 @@ namespace Temp
                     if(result == MessageBoxResult.Yes)
                     {
                         CurveParser.RenameFile(CurveName, FileName_TextBox.Text);
+                        CurveParser.DeleteFile(CurveName);
+                        CurveName = FileName_TextBox.Text;
                     }
                 }
                 Curve curve = new Curve();

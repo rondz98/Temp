@@ -21,7 +21,7 @@
       <Value Profile="(Default)">2000</Value>
     </Setting>
     <Setting Name="LogPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">log.txt</Value>
+      <Value Profile="(Default)">C:\Users\sro\Documents\PlatformIO\Projects\AutoFeeder\Temp\Software\Temp\bin\Debug\net6.0-windows</Value>
     </Setting>
   </Settings>
 </SettingsFile>

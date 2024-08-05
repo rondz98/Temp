@@ -37,9 +37,16 @@ namespace Temp.Helpers
                 double delta = nextAngle - actualAngle;
                 double increment = delta / Math.Abs(curve.points[i].TimeValue);
 
-                for(int j = IdealCurve.Count; j < (curve.points[i].TimeValue + totalTime); j++)
+                if (increment == (Math.Abs(nextAngle) - Math.Abs(actualAngle)))
                 {
                     IdealCurve.Add(Math.Round((IdealCurve.Last() + increment), 2));
+                }
+                else
+                {
+                    for (int j = IdealCurve.Count; j < (curve.points[i].TimeValue + totalTime); j++)
+                    {
+                        IdealCurve.Add(Math.Round((IdealCurve.Last() + increment), 2));
+                    }
                 }
                 totalTime += curve.points[i].TimeValue;
             }
